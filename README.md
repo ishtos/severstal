@@ -1,0 +1,2 @@
+# Severstal
+kaggle compethition
