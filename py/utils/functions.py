@@ -5,6 +5,9 @@ import numpy as np
 import torch
 
 def seed_everything(seed):
+    """
+    Set seed
+    """
     os.environ['PYTHONHASHSEED'] = str(seed)
     random.seed(seed)
     np.random.seed(seed)
@@ -13,6 +16,9 @@ def seed_everything(seed):
     torch.backends.cudnn.deterministic = True
 
 def rle2mask(rle, img, is_null):
+    """
+    Create mask images
+    """
     width, height, _ = img.shape
     
     mask = np.zeros(width * height).astype(np.uint8)
