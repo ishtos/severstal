@@ -1,0 +1,28 @@
+import os
+import random
+import numpy as np
+
+import torch
+
+def seed_everything(seed):
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.backends.cudnn.deterministic = True
+
+def rle2mask(rle, img, is_null):
+    width, height, _ = img.shape
+    
+    mask = np.zeros(width * height).astype(np.uint8)
+    
+    if not is_null:
+        array = np.asarray([int(x) for x in rle.split()])
+        starts = array[0::2]
+        lengths = array[1::2]
+        
+        for start, length in zip(starts, lengths):
+            mask[int(start):int(start+length)] = 255
+        
+    return np.flipud(np.rot90(mask.reshape(height, width), k=1))
