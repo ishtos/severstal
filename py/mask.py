@@ -15,9 +15,8 @@ def main():
         fn = row['ImageId']
         img = cv2.imread(os.path.join('..', 'input', 'train_images', f'{fn}'))
         mask = rle2mask(row['EncodedPixels'], img, row['is_null'])
-        cv2.imwrite(os.path.join('..', 'input', 'train_masks', f'f{fn}'), mask)
+        cv2.imwrite(os.path.join('..', 'input', 'train_masks', f'{fn}_{row["ClassId"]}'), mask)
 
-        break
 
 if __name__ == '__main__':
     main()
