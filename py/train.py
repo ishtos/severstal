@@ -51,7 +51,7 @@ def test(test_loader, model, criterion):
     truths = []
 
     model.eval()
-    for inputs, masks in test_loader:
+    for inputs, masks in tqdm(test_loader):
         inputs, masks = inputs.to(device), masks.to(device)
         
         with torch.set_grad_enabled(False):
@@ -76,7 +76,7 @@ def train(train_loader, model, criterion):
     data_size = train_data.__len__()
 
     model.train()
-    for inputs, masks in train_loader:
+    for inputs, masks in tqdm(train_loader):
         inputs, masks = inputs.to(device), masks.to(device)
         optimizer.zero_grad()
 
@@ -147,7 +147,6 @@ if __name__ == '__main__':
 
     num_snapshot = 0
     best_acc = 0
-
     criterion = get_loss(args.loss)
     for epoch in tqdm(range(args.epoch)):
         train_loss = train(train_loader, steel, criterion)
