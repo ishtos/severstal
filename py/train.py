@@ -3,6 +3,7 @@ import argparse
 import numpy as np
 import pandas as pd
 
+from tqdm import tqdm
 from multiprocessing import cpu_count
 from sklearn.model_selection import train_test_split
 
@@ -147,7 +148,7 @@ if __name__ == '__main__':
     best_acc = 0
 
     criterion = get_loss(args.loss)
-    for epoch in range(args.epoch):
+    for epoch in tqdm(range(args.epoch)):
         train_loss = train(train_loader, steel, criterion)
         val_loss, accuracy = test(val_loader, steel, criterion)
         lr_scheduler.step()
