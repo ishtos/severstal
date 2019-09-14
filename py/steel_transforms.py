@@ -21,7 +21,6 @@ def do_horizontal_flip2(image,mask):
     mask  = do_horizontal_flip(mask )
     return image, mask
 
-
 def do_center_pad(image, pad_left, pad_right):
     return np.pad(image, (pad_left, pad_right), 'edge')
 
@@ -40,12 +39,10 @@ def do_brightness_shift(image, alpha=0.125):
     image = np.clip(image, 0, 1)
     return image
 
-
 def do_brightness_multiply(image, alpha=1):
     image = alpha*image
     image = np.clip(image, 0, 1)
     return image
-
 
 #https://www.pyimagesearch.com/2015/10/05/opencv-gamma-correction/
 def do_gamma(image, gamma=1.0):
@@ -66,7 +63,6 @@ def do_shift_scale_crop( image, mask, x0=0, y0=0, x1=1, y1=1 ):
     mask  = cv2.resize(mask,dsize=(width,height))
     mask  = (mask>0.5).astype(np.float32)
     return image, mask
-
 
 def do_random_shift_scale_crop_pad2(image, mask, limit=0.10):
 
@@ -133,7 +129,6 @@ def do_elastic_transform2(image, mask, grid=32, distort=0.2):
         xx[start:end] = np.linspace(prev,cur,end-start)
         prev=cur
 
-
     y_step = int(grid)
     yy = np.zeros(height,np.float32)
     prev = 0
@@ -161,9 +156,6 @@ def do_elastic_transform2(image, mask, grid=32, distort=0.2):
     mask = cv2.remap(mask, map_x, map_y, interpolation=cv2.INTER_NEAREST, borderMode=borderMode,borderValue=(0,0,0,))
     mask  = (mask>0.5).astype(np.float32)
     return image, mask
-
-
-
 
 def do_horizontal_shear2( image, mask, dx=0 ):
     borderMode=cv2.BORDER_REFLECT_101
