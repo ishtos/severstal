@@ -31,6 +31,7 @@ class SteelDataset(Dataset):
 
         if self.mode == 'train':
             mask = build_mask(self.df.iloc[idx])
+            mask = mask.astype(np.float32)
             if self.transforms is not None:
                 transformed = self.transforms(image=img)
                 img = transformed['image']
@@ -40,6 +41,7 @@ class SteelDataset(Dataset):
         
         elif self.mode == 'valid':
             mask = build_mask(self.df.iloc[idx])
+            mask = mask.astype(np.float32)
             if self.transforms is not None:
                 transformed = self.transforms(image=img)
                 img = transformed['image']

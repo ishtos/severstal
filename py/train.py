@@ -22,7 +22,7 @@ parser.add_argument('--loss', default='BCEWithLogitsLoss', type=str, help='Loss 
 parser.add_argument('--fine_size', default=256, type=int, help='Resized image size')
 parser.add_argument('--pad_left', default=13, type=int, help='Left padding size')
 parser.add_argument('--pad_right', default=14, type=int, help='Right padding size')
-parser.add_argument('--batch_size', default=8, type=int, help='Batch size for training')
+parser.add_argument('--batch_size', default=2, type=int, help='Batch size for training')
 parser.add_argument('--epoch', default=300, type=int, help='Number of training epochs')
 parser.add_argument('--snapshot', default=5, type=int, help='Number of snapshots per fold')
 parser.add_argument('--cuda', default=True, type=bool, help='Use cuda to train model')
@@ -78,8 +78,8 @@ def train(train_loader, model, criterion):
         optimizer.zero_grad()
 
         with torch.set_grad_enabled(True):
-            logit = model(inputs)
-            loss = criterion(logit, masks)
+            logits= model(inputs)
+            loss = criterion(logits, masks)
 
             loss.backward()
             optimizer.step()

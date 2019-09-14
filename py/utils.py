@@ -81,7 +81,7 @@ def get_model(network, n_classes):
 
 def get_loss(loss):
     if loss == 'BCEWithLogitsLoss':
-        return nn.BCEWithLogitsLoss
+        return nn.BCEWithLogitsLoss()
     else:
         raise ValueError(f'Unknown loss {loss}')
 
