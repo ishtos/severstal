@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 
 from multiprocessing import cpu_count
+from sklearn.model_selection import train_test_split
 
 import torch
 import torch.nn as nn
@@ -11,7 +12,8 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import RandomSampler
 
-from utils import get_transforms, get_mdoel, get_loss, do_kaggle_mtric
+from steel_dataset import SteelDataset
+from utils import get_transforms, get_model, get_loss, do_kaggle_metric
 
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--model', default='Res34Unetv4', type=str, help='Model version')
@@ -20,7 +22,7 @@ parser.add_argument('--loss', default='BCEWithLogitsLoss', type=str, help='Loss 
 parser.add_argument('--fine_size', default=256, type=int, help='Resized image size')
 parser.add_argument('--pad_left', default=13, type=int, help='Left padding size')
 parser.add_argument('--pad_right', default=14, type=int, help='Right padding size')
-parser.add_argument('--batch_size', default=64, type=int, help='Batch size for training')
+parser.add_argument('--batch_size', default=8, type=int, help='Batch size for training')
 parser.add_argument('--epoch', default=300, type=int, help='Number of training epochs')
 parser.add_argument('--snapshot', default=5, type=int, help='Number of snapshots per fold')
 parser.add_argument('--cuda', default=True, type=bool, help='Use cuda to train model')
@@ -40,7 +42,7 @@ if not os.path.isdir(args.save_weight):
 device = torch.device('cuda' if args.cuda else 'cpu')
 
 
-train_df = pd.read_csv(os.path.join('..', 'input', 'processed_train.csv'))
+train_df = pd.read_csv(os.path.join('..', 'input', 'preprocessed_train.csv'))
 
 def test(test_loader, model, criterion):
     running_loss = 0.0
@@ -119,7 +121,7 @@ if __name__ == '__main__':
                         train_data,
                         shuffle=RandomSampler(train_data),
                         batch_size=args.batch_size,
-                        num_workers=cpu_count(),
+                        num_workers=0, #cpu_count(),
                         pin_memory=True)
     
     val_data = SteelDataset(
@@ -127,19 +129,19 @@ if __name__ == '__main__':
                         mode='val', 
                         fine_size=args.fine_size, 
                         pad_left=args.pad_left,
-                        pad_right=args.pad_right)
+                        pad_right=args.pad_right,
+                        transforms=get_transforms())
     val_loader = DataLoader(
                         val_data,
                         shuffle=False,
                         batch_size=args.batch_size,
-                        num_workers=cpu_count(),
-                        pin_memory=True,
-                        transforms=get_transforms())
+                        num_workers=0, #cpu_count(),
+                        pin_memory=True)
 
     num_snapshot = 0
     best_acc = 0
 
-    criterion = get_loss(loss)
+    criterion = get_loss(args.loss)
     for epoch in range(args.epoch):
         train_loss = train(train_loader, steel, criterion)
         val_loss, accuracy = test(val_loader, steel, criterion)

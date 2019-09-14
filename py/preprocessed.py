@@ -15,6 +15,7 @@ def make_split_label(x):
 
 def main():
     train_df = pd.read_csv(os.path.join('..', 'input', 'train.csv'))
+    train_df['ImageId'], train_df['ClassId'] = zip(*train_df['ImageId_ClassId'].apply(lambda x: x.split('_')))
     train_df = pd.pivot_table(train_df, index='ImageId', columns='ClassId', values='EncodedPixels', aggfunc=lambda x: x, dropna=False)
     train_df = train_df.reset_index()
     train_df.columns = [str(i) for i in train_df.columns.values]

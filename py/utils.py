@@ -54,7 +54,7 @@ def mask2rle(img):
     return ' '.join(str(x) for x in runs)
 
 def build_mask(series):
-    mask = np.zeros(256, 1600, 3)
+    mask = np.zeros((256, 1600, 4))
     for i in range(4):
         mask[:,:,i] = rle2mask(series[f'{i+1}'], (256, 1600))
 
@@ -80,7 +80,7 @@ def get_model(network, n_classes):
         raise ValueError(f'Unknown network {network}')
 
 def get_loss(loss):
-    if loss == 'BCEWithLogisLoss':
+    if loss == 'BCEWithLogitsLoss':
         return nn.BCEWithLogitsLoss
     else:
         raise ValueError(f'Unknown loss {loss}')

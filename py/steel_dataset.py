@@ -8,11 +8,8 @@ from tqdm import tqdm
 
 from torch.utils.data import Dataset
 
+from utils import build_mask
 from steel_transforms import *
-
-
-train_id = pd.read_csv(os.path.join('..', 'input', 'train.csv'))['ImageId'].unique()
-test_id = pd.read_csv(os.path.join('..', 'input', 'test.csv'))['ImageId'].unique()
 
 
 class SteelDataset(Dataset):
@@ -26,35 +23,39 @@ class SteelDataset(Dataset):
         self.transforms = transforms
 
     def __len__(self):
-        return len(self.img_list)
+        return len(self.df)
 
     def __getitem__(self, idx):
-        img = cv2.imread(self.df.iloc[idx]['ImageId'])
+        img = cv2.imread(os.path.join('..', 'input', 'train_images', self.df.iloc[idx]['ImageId']))
         img = img.astype(np.float32) / 255.
 
         if self.mode == 'train':
-            mask = build_mask(df.iloc[idx])
-            if transforms is not None:
-                transformed = self.transforms(image=img, mask=mask)
-                img, mask = transformed['image'], transformed['mask']
+            mask = build_mask(self.df.iloc[idx])
+            if self.transforms is not None:
+                transformed = self.transforms(image=img)
+                img = transformed['image']
+            img = img.transpose(2, 0, 1)
+            mask = mask.transpose(2, 0, 1)
             return img, mask
         
         elif self.mode == 'valid':
-            mask = build_mask(df.iloc[idx])
-            if transforms is not None:
-                transformed = self.transforms(image=img, mask=mask)
-                img, mask = transformed['image'], transformed['mask']
+            mask = build_mask(self.df.iloc[idx])
+            if self.transforms is not None:
+                transformed = self.transforms(image=img)
+                img = transformed['image']
+            img = img.transpose(2, 0, 1)
+            mask = mask.transpose(2, 0, 1)
             return img, mask
 
         elif self.mode == 'test':
             return img
 
 
-# def trainImageFetch(image_ids):
-#     img_train = []
-#     mask_train = []
+def trainImageFetch(image_ids):
+    img_train = []
+    mask_train = []
 
-#     for idx, img_id in tqdm(enumerate(image_ids)):
-#         img_path = os.path.join('..', 'input', 'train_images', f'{img_id}')
+    for idx, img_id in tqdm(enumerate(image_ids)):
+        img_path = os.path.join('..', 'input', 'train_images', f'{img_id}')
     
-#     return img_train
+    return img_train
