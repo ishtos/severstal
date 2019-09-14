@@ -11,8 +11,7 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import RandomSampler
 
-from utils import get_mdoel, do_kaggle_mtric
-from models.models import get_transforms, get_model, get_losses,
+from utils import get_transforms, get_mdoel, get_loss, do_kaggle_mtric
 
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--model', default='Res34Unetv4', type=str, help='Model version')
