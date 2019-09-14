@@ -95,6 +95,7 @@ def train(train_loader, model, criterion):
 if __name__ == '__main__':
     seed_everything(43)
     scheduler_step = args.epoch // args.snapshot
+   
     # Get Model
     steel = get_model(args.model, args.n_classes)
     steel.to(device)
@@ -111,8 +112,8 @@ if __name__ == '__main__':
                                                         args.min_lr)
 
     train_idx, valid_idx, _, _ = train_test_split(
-                                            train_df.index, t
-                                            rain_df['split_label'], 
+                                            train_df.index, 
+                                            train_df['split_label'], 
                                             test_size=0.2, 
                                             random_state=43)
 
