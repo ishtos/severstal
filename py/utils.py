@@ -4,6 +4,7 @@ import numpy as np
 
 import torch
 import torch.nn as nn
+import albumentations as A
 
 from models.models_zoo import *
 
@@ -59,6 +60,12 @@ def build_mask(series):
 
     return mask
 
+def get_transforms():
+    mean = (0.485, 0.456, 0.406)
+    std = (0.229, 0.224, 0.225)
+    transforms = A.Compose([A.Normalize(mean, std)])
+    return transforms
+
 def get_model(network, n_classes):
     if network == 'Res34Unetv3':
         model = Res34Unetv3(n_classes)
@@ -77,7 +84,7 @@ def get_loss(loss):
         return nn.BCEWithLogitsLoss
     else:
         raise ValueError(f'Unknown loss {loss}')
-    
+
 def do_kaggle_metric(predict,truth, threshold=0.5):
 
     N = len(predict)

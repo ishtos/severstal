@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 from torch.utils.data.sampler import RandomSampler
 
 from utils import get_mdoel, do_kaggle_mtric
-from models.models import get_model, get_losses
+from models.models import get_transforms, get_model, get_losses,
 
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--model', default='Res34Unetv4', type=str, help='Model version')
@@ -114,7 +114,8 @@ if __name__ == '__main__':
                         mode='train', 
                         fine_size=args.fine_size, 
                         pad_left=args.pad_left, 
-                        pad_right=args.pad_right)
+                        pad_right=args.pad_right,
+                        transforms=get_transforms())
     train_loader = DataLoader(
                         train_data,
                         shuffle=RandomSampler(train_data),
@@ -133,7 +134,8 @@ if __name__ == '__main__':
                         shuffle=False,
                         batch_size=args.batch_size,
                         num_workers=cpu_count(),
-                        pin_memory=True)
+                        pin_memory=True,
+                        transforms=get_transforms())
 
     num_snapshot = 0
     best_acc = 0
