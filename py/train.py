@@ -10,11 +10,12 @@ from torch.utils.data import DataLoader
 from torch.utils.data.sampler import RandomSampler
 
 from utils import get_mdoel, do_kaggle_mtric
-from models.models import get_model
+from models.models import get_model, get_losses
 
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--model', default='Res34Unetv4', type=str, help='Model version')
 parser.add_argument('--n_classes', default=4, type=int, help='Number of classes')
+parser.add_argument('--loss', default='BCEWithLogitsLoss', type=str, help='Loss function')
 parser.add_argument('--fine_size', default=256, type=int, help='Resized image size')
 parser.add_argument('--pad_left', default=13, type=int, help='Left padding size')
 parser.add_argument('--pad_right', default=14, type=int, help='Right padding size')
@@ -39,7 +40,7 @@ device = torch.device('cuda' if args.cuda else 'cpu')
 
 train_df = pd.read_csv(os.path.join('..', 'input', 'train.csv'))
 
-def test(test_loader, model):
+def test(test_loader, model, criterion):
     running_loss = 0.0
     predicts = []
     truths = []
@@ -53,9 +54,7 @@ def test(test_loader, model):
             else:
                 outputs = model(inputs)
 
-            outputs = outputs[:, :, args.pad_left:args.pad_left + args.fine_size,
-                      args.pad_left:args.pad_left + args.fine_size].contiguous()
-            loss = lovasz_hinge(outputs.squeeze(1), masks.squeeze(1))
+            loss = criterion(outputs, masks)
 
         predicts.append(F.sigmoid(outputs).detach().cpu().numpy())
         truths.append(masks.detach().cpu().numpy())
@@ -68,7 +67,7 @@ def test(test_loader, model):
     epoch_loss = running_loss / val_data.__len__()
     return epoch_loss, precision
 
-def train(train_loader, model):
+def train(train_loader, model, criterion):
     running_loss = 0.0
     data_size = train_data.__len__()
 
@@ -79,7 +78,7 @@ def train(train_loader, model):
 
         with torch.set_grad_enabled(True):
             logit = model(inputs)
-            loss = lovasz_hinge(logit.squeeze(1), masks.squeeze(1))
+            loss = criterion(logit, masks)
 
             loss.backward()
             optimizer.step()
@@ -92,12 +91,12 @@ def train(train_loader, model):
 if __name__ == '__main__':
     scheduler_step = args.epoch // args.snapshot
     # Get Model
-    salt = get_model(args.model, args.n_classes)
-    salt.to(device)
+    steel = get_model(args.model, args.n_classes)
+    steel.to(device)
  
     # Setup optimizer
     optimizer = torch.optim.SGD(
-                            salt.parameters(), 
+                            steel.parameters(), 
                             lr=args.max_lr, 
                             momentum=args.momentum, 
                             weight_decay=args.weight_decay)
@@ -111,7 +110,7 @@ if __name__ == '__main__':
     X_train, y_train = trainImageFetch(train_id)
     X_val, y_val = trainImageFetch(val_id)
 
-    train_data = SaltDataset(
+    train_data = SteelDataset(
                         X_train, 
                         mode='train', 
                         mask_list=y_train, 
@@ -125,8 +124,13 @@ if __name__ == '__main__':
                         num_workers=8,
                         pin_memory=True)
     
-    val_data = SaltDataset(X_val, mode='val', mask_list=y_val, fine_size=args.fine_size, pad_left=args.pad_left,
-                            pad_right=args.pad_right)
+    val_data = SteelDataset(
+                        X_val, 
+                        mode='val', 
+                        mask_list=y_val, 
+                        fine_size=args.fine_size, 
+                        pad_left=args.pad_left,
+                        pad_right=args.pad_right)
     val_loader = DataLoader(
                         val_data,
                         shuffle=False,
@@ -137,18 +141,19 @@ if __name__ == '__main__':
     num_snapshot = 0
     best_acc = 0
 
+    criterion = get_loss(loss)
     for epoch in range(args.epoch):
-        train_loss = train(train_loader, salt)
-        val_loss, accuracy = test(val_loader, salt)
+        train_loss = train(train_loader, steel, criterion)
+        val_loss, accuracy = test(val_loader, steel, criterion)
         lr_scheduler.step()
 
         if accuracy > best_acc:
             best_acc = accuracy
-            best_param = salt.state_dict()
+            best_param = steel.state_dict()
 
         if (epoch + 1) % scheduler_step == 0:
             torch.save(best_param, args.save_weight + args.weight_name + str(idx) + str(num_snapshot) + '.pth')
-            optimizer = torch.optim.SGD(salt.parameters(), lr=args.max_lr, momentum=args.momentum,
+            optimizer = torch.optim.SGD(steel.parameters(), lr=args.max_lr, momentum=args.momentum,
                                         weight_decay=args.weight_decay)
             lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, scheduler_step, args.min_lr)
             num_snapshot += 1

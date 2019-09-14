@@ -3,6 +3,7 @@ import random
 import numpy as np
 
 import torch
+import torch.nn as nn
 
 from models.models_zoo import *
 
@@ -62,10 +63,14 @@ def get_model(network, n_classes):
         model = Res34Unetv5(n_classes)
         return model 
     else:
-        raise ValueError('Unknown network ' + network)
+        raise ValueError(f'Unknown network {network}')
 
-    return model
-
+def get_loss(loss):
+    if loss == 'BCEWithLogisLoss':
+        return nn.BCEWithLogitsLoss
+    else:
+        raise ValueError(f'Unknown loss {loss}')
+    
 def do_kaggle_metric(predict,truth, threshold=0.5):
 
     N = len(predict)
