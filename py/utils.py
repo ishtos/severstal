@@ -54,7 +54,7 @@ def mask2rle(img):
     return ' '.join(str(x) for x in runs)
 
 def build_mask(series):
-    mask = np.zeros(256, 1600, 3):
+    mask = np.zeros(256, 1600, 3)
     for i in range(4):
         mask[:,:,i] = rle2mask(series[f'{i+1}'], (256, 1600))
 
