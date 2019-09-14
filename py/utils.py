@@ -51,15 +51,15 @@ def mask2rle(img):
     runs[1::2] -= runs[::2]
     return ' '.join(str(x) for x in runs)
 
-def get_model(network):
+def get_model(network, n_classes):
     if network == 'Res34Unetv3':
-        model = Res34Unetv3()
+        model = Res34Unetv3(n_classes)
         return model 
     elif network == 'Res34Unetv4':
-        model = Res34Unetv4()
+        model = Res34Unetv4(n_classes)
         return model 
     elif network == 'Res34Unetv5':
-        model = Res34Unetv5()
+        model = Res34Unetv5(n_classes)
         return model 
     else:
         raise ValueError('Unknown network ' + network)

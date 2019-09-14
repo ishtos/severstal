@@ -139,7 +139,7 @@ class SCse(nn.Module):
 
 # stage1 model
 class Res34Unetv4(nn.Module):
-    def __init__(self):
+    def __init__(self, n_classes=4):
         super(Res34Unetv4, self).__init__()
         self.resnet = torchvision.models.resnet34(True)
 
@@ -168,7 +168,7 @@ class Res34Unetv4(nn.Module):
 
         self.logit = nn.Sequential(nn.Conv2d(320, 64, kernel_size=3, padding=1),
                                    nn.ELU(True),
-                                   nn.Conv2d(64, 1, kernel_size=1, bias=False))
+                                   nn.Conv2d(64, n_classes, kernel_size=1, bias=False))
 
     def forward(self, x):
         # x: (batch_size, 3, 256, 256)
@@ -193,14 +193,14 @@ class Res34Unetv4(nn.Module):
                        F.upsample(d4, scale_factor=8, mode='bilinear', align_corners=True),
                        F.upsample(d5, scale_factor=16, mode='bilinear', align_corners=True)), 1)  # 320, 256, 256
 
-        logit = self.logit(f)  # 1, 256, 256
+        logit = self.logit(f)  # n_classes, 256, 256
 
         return logit
 
 
 # stage2 model
 class Res34Unetv3(nn.Module):
-    def __init__(self):
+    def __init__(self, n_classes=4):
         super(Res34Unetv3, self).__init__()
         self.resnet = torchvision.models.resnet34(True)
 
@@ -239,7 +239,7 @@ class Res34Unetv3(nn.Module):
                                          nn.Sigmoid())
         self.logit = nn.Sequential(nn.Conv2d(128, 64, kernel_size=3, padding=1, bias=False),
                                    nn.ELU(True),
-                                   nn.Conv2d(64, 1, kernel_size=1, bias=False))
+                                   nn.Conv2d(64, n_classes, kernel_size=1, bias=False))
 
     def forward(self, x):
         # x: (batch_size, 3, 256, 256)
@@ -281,14 +281,14 @@ class Res34Unetv3(nn.Module):
         fuse = torch.cat([fuse_pixel,
                           F.upsample(fuse_image.view(batch_size, -1, 1, 1), scale_factor=256, mode='bilinear',
                                      align_corners=True)], 1)  # 128, 256, 256
-        logit = self.logit(fuse)  # 1, 256, 256
+        logit = self.logit(fuse)  # n_classes, 256, 256
 
         return logit, logit_pixel, logit_image.view(-1)
 
 
 # stage3 model
 class Res34Unetv5(nn.Module):
-    def __init__(self):
+    def __init__(self, n_classes):
         super(Res34Unetv5, self).__init__()
         self.resnet = torchvision.models.resnet34(True)
 
@@ -316,7 +316,7 @@ class Res34Unetv5(nn.Module):
 
         self.logit = nn.Sequential(nn.Conv2d(256, 32, kernel_size=3, padding=1),
                                    nn.ELU(True),
-                                   nn.Conv2d(32, 1, kernel_size=1, bias=False))
+                                   nn.Conv2d(32, n_classes, kernel_size=1, bias=False))
 
     def forward(self, x):
         # x: batch_size, 3, 128, 128
@@ -339,6 +339,6 @@ class Res34Unetv5(nn.Module):
                        F.upsample(d5, scale_factor=8, mode='bilinear', align_corners=True)), 1)  # 256, 128, 128
 
         f = F.dropout2d(f, p=0.4)
-        logit = self.logit(f)  # 1, 128, 128
+        logit = self.logit(f)  # n_classes, 128, 128
 
         return logit

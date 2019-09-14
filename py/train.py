@@ -9,11 +9,12 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import RandomSampler
 
-from utils import do_kaggle_mtric
+from utils import get_mdoel, do_kaggle_mtric
 from models.models import get_model
 
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--model', default='Res34Unetv4', type=str, help='Model version')
+parser.add_argument('--n_classes', default=4, type=int, help='Number of classes')
 parser.add_argument('--fine_size', default=256, type=int, help='Resized image size')
 parser.add_argument('--pad_left', default=13, type=int, help='Left padding size')
 parser.add_argument('--pad_right', default=14, type=int, help='Right padding size')
@@ -21,7 +22,7 @@ parser.add_argument('--batch_size', default=64, type=int, help='Batch size for t
 parser.add_argument('--epoch', default=300, type=int, help='Number of training epochs')
 parser.add_argument('--snapshot', default=5, type=int, help='Number of snapshots per fold')
 parser.add_argument('--cuda', default=True, type=bool, help='Use cuda to train model')
-parser.add_argument('--save_weight', default='../weights/', type=str, help='weight save space')
+parser.add_argument('--save_weight', default='weights/', type=str, help='weight save space')
 parser.add_argument('--max_lr', default=0.01, type=float, help='max learning rate')
 parser.add_argument('--min_lr', default=0.001, type=float, help='min learning rate')
 parser.add_argument('--momentum', default=0.9, type=float, help='momentum for SGD')
@@ -91,7 +92,7 @@ def train(train_loader, model):
 if __name__ == '__main__':
     scheduler_step = args.epoch // args.snapshot
     # Get Model
-    salt = get_model(args.model)
+    salt = get_model(args.model, args.n_classes)
     salt.to(device)
  
     # Setup optimizer
