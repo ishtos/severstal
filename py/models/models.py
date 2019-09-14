@@ -1,3 +1,4 @@
+# TODO: cleanup 
 from models.models_zoo import Res34Unetv4
 
 def get_model(network):

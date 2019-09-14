@@ -9,6 +9,7 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import RandomSampler
 
+from utils import do_kaggle_mtric
 from models.models import get_model
 
 parser = argparse.ArgumentParser(description='')
@@ -25,7 +26,6 @@ parser.add_argument('--max_lr', default=0.01, type=float, help='max learning rat
 parser.add_argument('--min_lr', default=0.001, type=float, help='min learning rate')
 parser.add_argument('--momentum', default=0.9, type=float, help='momentum for SGD')
 parser.add_argument('--weight_decay', default=1e-4, type=float, help='Weight decay for SGD')
-parser.add_argument('--is_pseudo', default=False, type=bool, help='Use pseudolabels or not')
 
 args = parser.parse_args()
 fine_size = args.fine_size + args.pad_left + args.pad_right
@@ -35,6 +35,8 @@ if not os.path.isdir(args.save_weight):
     os.mkdir(args.save_weight)
 
 device = torch.device('cuda' if args.cuda else 'cpu')
+
+train_df = pd.read_csv(os.path.join('..', 'input', 'train.csv'))
 
 def test(test_loader, model):
     running_loss = 0.0
@@ -70,21 +72,13 @@ def train(train_loader, model):
     data_size = train_data.__len__()
 
     model.train()
-    # for inputs, masks, labels in progress_bar(train_loader, parent=mb):
     for inputs, masks, labels in train_loader:
         inputs, masks, labels = inputs.to(device), masks.to(device), labels.to(device)
         optimizer.zero_grad()
 
         with torch.set_grad_enabled(True):
-            if args.is_pseudo:
-                logit, logit_pixel, logit_image = model(inputs)
-                loss1 = lovasz_hinge(logit.squeeze(1), masks.squeeze(1))
-                loss2 = nn.BCELoss()(logit_image, labels)
-                loss3 = lovasz_hinge2(logit_pixel.squeeze(1), masks.squeeze(1))
-                loss = loss1 + loss2 + loss3
-            else:
-                logit = model(inputs)
-                loss = lovasz_hinge(logit.squeeze(1), masks.squeeze(1))
+            logit = model(inputs)
+            loss = lovasz_hinge(logit.squeeze(1), masks.squeeze(1))
 
             loss.backward()
             optimizer.step()
@@ -112,8 +106,7 @@ if __name__ == '__main__':
                                                         args.min_lr)
 
     # Load data
-    train_id = np.setdiff1d(all_id, fold[idx])
-    val_id = fold[idx]
+    train_id, valid_id, _, _ = train_test_split(train_df, train_df['ClassId_is_null'], test_size=0.2, random_state=43)
     X_train, y_train = trainImageFetch(train_id)
     X_val, y_val = trainImageFetch(val_id)
 
