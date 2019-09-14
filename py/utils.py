@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 import albumentations as A
 
-from models.models_zoo import *
+from models import *
 
 def seed_everything(seed):
     """
