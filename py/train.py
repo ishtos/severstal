@@ -126,7 +126,7 @@ if __name__ == '__main__':
     
     val_data = SteelDataset(
                         train_df.iloc[valid_idx], 
-                        mode='val', 
+                        mode='valid', 
                         fine_size=args.fine_size, 
                         pad_left=args.pad_left,
                         pad_right=args.pad_right,
