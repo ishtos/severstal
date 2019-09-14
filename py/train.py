@@ -47,9 +47,10 @@ train_df = pd.read_csv(os.path.join('..', 'input', 'preprocessed_train.csv'))
 
 def test(test_loader, model, criterion):
     running_loss = 0.0
+    precisions = 0.0
     predicts = []
     truths = []
-
+    
     model.eval()
     for inputs, masks in tqdm(test_loader):
         inputs, masks = inputs.to(device), masks.to(device)
@@ -64,10 +65,10 @@ def test(test_loader, model, criterion):
 
         # presicion.append(dice_coef(predicts, truths))
     
-    predicts = np.concatenate(predicts).squeeze()
-    truths = np.concatenate(truths).squeeze()
-    precision, _, _ = do_kaggle_metric(predicts, truths, 0.5)
-    precision = precision.mean()
+        predicts = np.concatenate(predicts).squeeze()
+        truths = np.concatenate(truths).squeeze()
+        precision, _, _ = do_kaggle_metric(predicts, truths, 0.5)
+        precisions += precision.mean()
     epoch_loss = running_loss / val_data.__len__()
     return epoch_loss, precision
 
