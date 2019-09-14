@@ -38,7 +38,6 @@ def rle2mask(rle, shape):
         
         for start, length in zip(starts, lengths):
             mask[int(start):int(start+length)] = 1
-        
     return np.flipud(np.rot90(mask.reshape(height, width), k=1))
 
 def mask2rle(img):
@@ -57,7 +56,6 @@ def build_mask(series):
     mask = np.zeros((256, 1600, 4))
     for i in range(4):
         mask[:,:,i] = rle2mask(series[f'{i+1}'], (256, 1600))
-
     return mask
 
 def get_transforms():

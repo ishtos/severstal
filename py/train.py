@@ -13,7 +13,7 @@ from torch.utils.data import DataLoader
 from torch.utils.data.sampler import RandomSampler
 
 from steel_dataset import SteelDataset
-from utils import get_transforms, get_model, get_loss, do_kaggle_metric
+from utils import seed_everything, get_transforms, get_model, get_loss, do_kaggle_metric
 
 parser = argparse.ArgumentParser(description='')
 parser.add_argument('--model', default='Res34Unetv4', type=str, help='Model version')
@@ -61,6 +61,8 @@ def test(test_loader, model, criterion):
         truths.append(masks.detach().cpu().numpy())
         running_loss += loss.item() * inputs.size(0)
 
+        # presicion.append(dice_coef(predicts, truths))
+    
     predicts = np.concatenate(predicts).squeeze()
     truths = np.concatenate(truths).squeeze()
     precision, _, _ = do_kaggle_metric(predicts, truths, 0.5)
@@ -90,6 +92,7 @@ def train(train_loader, model, criterion):
 
 
 if __name__ == '__main__':
+    seed_everything(43)
     scheduler_step = args.epoch // args.snapshot
     # Get Model
     steel = get_model(args.model, args.n_classes)
@@ -106,9 +109,11 @@ if __name__ == '__main__':
                                                         scheduler_step, 
                                                         args.min_lr)
 
-    # Load data
-    train_idx, valid_idx, _, _ = train_test_split(train_df.index, train_df['split_label'], test_size=0.2, random_state=43)
-
+    train_idx, valid_idx, _, _ = train_test_split(
+                                            train_df.index, t
+                                            rain_df['split_label'], 
+                                            test_size=0.2, 
+                                            random_state=43)
 
     train_data = SteelDataset(
                         train_df.iloc[train_idx], 
@@ -152,10 +157,18 @@ if __name__ == '__main__':
             best_param = steel.state_dict()
 
         if (epoch + 1) % scheduler_step == 0:
-            torch.save(best_param, args.save_weight + args.weight_name + str(idx) + str(num_snapshot) + '.pth')
-            optimizer = torch.optim.SGD(steel.parameters(), lr=args.max_lr, momentum=args.momentum,
-                                        weight_decay=args.weight_decay)
-            lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, scheduler_step, args.min_lr)
+            torch.save(
+                best_param, 
+                args.save_weight + args.weight_name + str(num_snapshot) + '.pth')
+            optimizer = torch.optim.SGD(
+                                    steel.parameters(), 
+                                    lr=args.max_lr, 
+                                    momentum=args.momentum,
+                                    weight_decay=args.weight_decay)
+            lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+                                                                optimizer, 
+                                                                scheduler_step, 
+                                                                args.min_lr)
             num_snapshot += 1
             best_acc = 0
 
