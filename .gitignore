@@ -114,3 +114,8 @@ output/
 
 # weights
 weights/
+
+# predictions
+# fold_predictions
+predictions/
+fold_predictions/
