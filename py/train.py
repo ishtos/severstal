@@ -3,6 +3,8 @@ import argparse
 import numpy as np
 import pandas as pd
 
+from multiprocessing import cpu_count
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -38,7 +40,8 @@ if not os.path.isdir(args.save_weight):
 
 device = torch.device('cuda' if args.cuda else 'cpu')
 
-train_df = pd.read_csv(os.path.join('..', 'input', 'train.csv'))
+
+train_df = pd.read_csv(os.path.join('..', 'input', 'processed_train.csv'))
 
 def test(test_loader, model, criterion):
     running_loss = 0.0
@@ -48,12 +51,9 @@ def test(test_loader, model, criterion):
     model.eval()
     for inputs, masks in test_loader:
         inputs, masks = inputs.to(device), masks.to(device)
+        
         with torch.set_grad_enabled(False):
-            if args.is_pseudo:
-                outputs, _, _ = model(inputs)
-            else:
-                outputs = model(inputs)
-
+            outputs = model(inputs)
             loss = criterion(outputs, masks)
 
         predicts.append(F.sigmoid(outputs).detach().cpu().numpy())
@@ -72,8 +72,8 @@ def train(train_loader, model, criterion):
     data_size = train_data.__len__()
 
     model.train()
-    for inputs, masks, labels in train_loader:
-        inputs, masks, labels = inputs.to(device), masks.to(device), labels.to(device)
+    for inputs, masks in train_loader:
+        inputs, masks = inputs.to(device), masks.to(device)
         optimizer.zero_grad()
 
         with torch.set_grad_enabled(True):
@@ -106,14 +106,12 @@ if __name__ == '__main__':
                                                         args.min_lr)
 
     # Load data
-    train_id, valid_id, _, _ = train_test_split(train_df, train_df['ClassId_is_null'], test_size=0.2, random_state=43)
-    X_train, y_train = trainImageFetch(train_id)
-    X_val, y_val = trainImageFetch(val_id)
+    train_idx, valid_idx, _, _ = train_test_split(train_df.index, train_df['split_label'], test_size=0.2, random_state=43)
+
 
     train_data = SteelDataset(
-                        X_train, 
+                        train_df.iloc[train_idx], 
                         mode='train', 
-                        mask_list=y_train, 
                         fine_size=args.fine_size, 
                         pad_left=args.pad_left, 
                         pad_right=args.pad_right)
@@ -121,13 +119,12 @@ if __name__ == '__main__':
                         train_data,
                         shuffle=RandomSampler(train_data),
                         batch_size=args.batch_size,
-                        num_workers=8,
+                        num_workers=cpu_count(),
                         pin_memory=True)
     
     val_data = SteelDataset(
-                        X_val, 
+                        train_df.iloc[valid_idx], 
                         mode='val', 
-                        mask_list=y_val, 
                         fine_size=args.fine_size, 
                         pad_left=args.pad_left,
                         pad_right=args.pad_right)
@@ -135,7 +132,7 @@ if __name__ == '__main__':
                         val_data,
                         shuffle=False,
                         batch_size=args.batch_size,
-                        num_workers=8,
+                        num_workers=cpu_count(),
                         pin_memory=True)
 
     num_snapshot = 0

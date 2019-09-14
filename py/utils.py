@@ -18,7 +18,7 @@ def seed_everything(seed):
     torch.cuda.manual_seed(seed)
     torch.backends.cudnn.deterministic = True
 
-def rle2mask(rle, shape, is_null):
+def rle2mask(rle, shape):
     '''
     rle: run-length as string formated
     shape: (width, height)
@@ -30,13 +30,13 @@ def rle2mask(rle, shape, is_null):
     
     mask = np.zeros(width * height).astype(np.uint8)
     
-    if not is_null:
+    if str(rle) != 'nan':
         array = np.asarray([int(x) for x in rle.split()])
         starts = array[0::2]
         lengths = array[1::2]
         
         for start, length in zip(starts, lengths):
-            mask[int(start):int(start+length)] = 255
+            mask[int(start):int(start+length)] = 1
         
     return np.flipud(np.rot90(mask.reshape(height, width), k=1))
 
@@ -51,6 +51,13 @@ def mask2rle(img):
     runs = np.where(pixels[1:] != pixels[:-1])[0] + 1
     runs[1::2] -= runs[::2]
     return ' '.join(str(x) for x in runs)
+
+def build_mask(series):
+    mask = np.zeros(256, 1600, 3):
+    for i in range(4):
+        mask[:,:,i] = rle2mask(series[f'{i+1}'], (256, 1600))
+
+    return mask
 
 def get_model(network, n_classes):
     if network == 'Res34Unetv3':
