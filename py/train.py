@@ -129,7 +129,7 @@ if __name__ == '__main__':
                         shuffle=RandomSampler(train_data),
                         batch_size=args.batch_size,
                         num_workers=0, #cpu_count(),
-                        pin_memory=True)
+                        pin_memory=False)
     
     val_data = SteelDataset(
                         train_df.iloc[valid_idx], 
@@ -143,7 +143,7 @@ if __name__ == '__main__':
                         shuffle=False,
                         batch_size=args.batch_size,
                         num_workers=0, #cpu_count(),
-                        pin_memory=True)
+                        pin_memory=False)
 
     num_snapshot = 0
     best_acc = 0
