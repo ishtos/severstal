@@ -32,3 +32,10 @@ def rle2mask(rle, img, is_null):
             mask[int(start):int(start+length)] = 255
         
     return np.flipud(np.rot90(mask.reshape(height, width), k=1))
+
+def mask2rle(img):
+    pixels = img.flatten()
+    pixels = np.concatenate([[0], pixels, [0]])
+    runs = np.where(pixels[1:] != pixels[:-1])[0] + 1
+    runs[1::2] -= runs[::2]
+    return ' '.join(str(x) for x in runs)
