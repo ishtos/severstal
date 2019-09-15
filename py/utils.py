@@ -83,7 +83,7 @@ def get_loss(loss):
     else:
         raise ValueError(f'Unknown loss {loss}')
 
-def do_kaggle_metric(predict,truth, threshold=0.5):
+def do_kaggle_metric(predict, truth, threshold=0.5):
 
     N = len(predict)
     predict = predict.reshape(N, -1)

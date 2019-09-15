@@ -27,7 +27,7 @@ parser.add_argument('--batch_size', default=2, type=int, help='Batch size for tr
 parser.add_argument('--epoch', default=300, type=int, help='Number of training epochs')
 parser.add_argument('--snapshot', default=5, type=int, help='Number of snapshots per fold')
 parser.add_argument('--cuda', default=True, type=bool, help='Use cuda to train model')
-parser.add_argument('--save_weight', default='weights/', type=str, help='weight save space')
+parser.add_argument('--save_weight', default='weights', type=str, help='weight save space')
 parser.add_argument('--max_lr', default=0.01, type=float, help='max learning rate')
 parser.add_argument('--min_lr', default=0.001, type=float, help='min learning rate')
 parser.add_argument('--momentum', default=0.9, type=float, help='momentum for SGD')
@@ -155,7 +155,7 @@ if __name__ == '__main__':
         if (epoch + 1) % scheduler_step == 0:
             torch.save(
                 best_param, 
-                args.save_weight + args.weight_name + str(num_snapshot) + '.pth')
+                os.path.join(args.save_weight, args.weight_name + str(num_snapshot) + '.pth'))
             optimizer = torch.optim.SGD(
                                     steel.parameters(), 
                                     lr=args.max_lr, 
