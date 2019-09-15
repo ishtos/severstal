@@ -7,23 +7,19 @@ from torch.autograd import Variable
 
 
 def dice_coef(y_true, y_pred, smooth=1.0):
-    y_true_f = K.flatten(y_true)
-    y_pred_f = K.flatten(y_pred)
-    intersection = K.sum(y_true_f * y_pred_f)
-    return (2. * intersection + smooth) / (K.sum(y_true_f) + K.sum(y_pred_f) + smooth)
-
+    y_true_f = np.ravel(y_true)
+    y_pred_f = np.ravel(y_pred)
+    intersection = np.sum(y_true_f * y_pred_f)
+    return (2. * intersection + smooth) / (np.sum(y_true_f) + np.sum(y_pred_f) + smooth)
 
 def binary_crossentropy(y, p):
     return K.mean(K.binary_crossentropy(y, p))
 
-
 def dice_coef_loss(y_true, y_pred):
     return 1 - dice_coef(y_true, y_pred)
 
-
 def dice_coef_loss_bce(y_true, y_pred, dice=0.5, bce=0.5):
     return binary_crossentropy(y_true, y_pred) * bce + dice_coef_loss(y_true, y_pred) * dice
-
 
 def Kaggle_IoU_Precision(y_true, y_pred, threshold=0.5):
     y_pred = K.squeeze(tf.to_int32(y_pred > threshold), -1)
@@ -40,7 +36,6 @@ def Kaggle_IoU_Precision(y_true, y_pred, threshold=0.5):
     prec = K.map_fn(lambda x: K.mean(K.greater(x, np.arange(0.5, 1.0, 0.05))), iou, dtype=tf.float32)
     prec_iou = K.mean(prec)
     return prec_iou
-
 
 # src: https://www.kaggle.com/aglotero/another-iou-metric
 def iou_metric(y_true_in, y_pred_in, print_table=False):
@@ -115,7 +110,6 @@ def lovasz_grad(gt_sorted):
         jaccard[1:p] = jaccard[1:p] - jaccard[0:-1]
     return jaccard
 
-
 def iou_binary(preds, labels, EMPTY=1., ignore=None, per_image=True):
     """
     IoU for foreground class
@@ -134,7 +128,6 @@ def iou_binary(preds, labels, EMPTY=1., ignore=None, per_image=True):
         ious.append(iou)
     iou = mean(ious)    # mean accross images if per_image
     return 100 * iou
-
 
 def iou(preds, labels, C, EMPTY=1., ignore=None, per_image=False):
     """
@@ -157,9 +150,7 @@ def iou(preds, labels, C, EMPTY=1., ignore=None, per_image=False):
     ious = map(mean, zip(*ious)) # mean accross images if per_image
     return 100 * np.array(ious)
 
-
 # --------------------------- BINARY LOSSES ---------------------------
-
 
 def lovasz_hinge(logits, labels, per_image=True, ignore=None):
     """
@@ -175,7 +166,6 @@ def lovasz_hinge(logits, labels, per_image=True, ignore=None):
     else:
         loss = lovasz_hinge_flat(*flatten_binary_scores(logits, labels, ignore))
     return loss
-
 
 def lovasz_hinge_flat(logits, labels):
     """
@@ -210,7 +200,6 @@ def lovasz_hinge2(logits, labels, per_image=True, ignore=None):
     else:
         loss = lovasz_hinge_flat2(*flatten_binary_scores(logits, labels, ignore))
     return loss
-
 
 def lovasz_hinge_flat2(logits, labels):
     """

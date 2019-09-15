@@ -47,7 +47,7 @@ train_df = pd.read_csv(os.path.join('..', 'input', 'preprocessed_train.csv'))
 
 def test(test_loader, model, criterion):
     running_loss = 0.0
-    precisions = 0.0
+    precisions = []
     
     model.eval()
     for inputs, masks in tqdm(test_loader):
@@ -60,11 +60,11 @@ def test(test_loader, model, criterion):
         predicts = F.sigmoid(outputs).detach().cpu().numpy().squeeze()
         truths = masks.detach().cpu().numpy().squeeze()
         running_loss += loss.item() * inputs.size(0)
-        precision, _, _ = do_kaggle_metric(predicts, truths, 0.5)
-        precisions += precision.mean()
+        precisions.append(do_kaggle_metric(predicts, truths))
 
+    precision = np.mean(presicions)
     epoch_loss = running_loss / val_data.__len__()
-    return epoch_loss, precisions
+    return epoch_loss, precision
 
 def train(train_loader, model, criterion):
     running_loss = 0.0

@@ -30,6 +30,7 @@ from torch.utils.data.sampler import RandomSampler
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+from torch.autograd import Variable
 
 import torchvision
 import torchvision.models as models
