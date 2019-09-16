@@ -20,15 +20,13 @@ def seed_everything(seed):
     torch.backends.cudnn.deterministic = True
 
 # TODO: bug fix
-def rle2mask(rle, shape):
+def rle2mask(rle):
     '''
     rle: run-length as string formated
-    shape: (width, height)
-    is_null: whether rle is null or not
 
     return: mask image
     '''
-    width, height = shape
+    width, height = 1600, 256
     
     mask = np.zeros(width * height).astype(np.uint8)
     
@@ -53,29 +51,40 @@ def mask2rle(img):
     runs[1::2] -= runs[::2]
     return ' '.join(str(x) for x in runs)
 
-def run_length_decode(rle, height=256, width=1600, fill_value=1):
-    mask = np.zeros((height,width), np.float32)
-    if rle != '':
-        mask=mask.reshape(-1)
-        r = [int(r) for r in rle.split(' ')]
-        r = np.array(r).reshape(-1, 2)
-        for start,length in r:
-            start = start-1 
-            mask[start:(start + length)] = fill_value
-        mask = mask.reshape(width, height).T
-    return mask
+def run_length_encode(component):
+    if component.sum() == 0:
+        return ''
+    component = np.hstack([np.array([0]), component.T.flatten(), np.array([0])])
+    start  = np.where(component[1: ] > component[:-1])[0]
+    end    = np.where(component[:-1] > component[1: ])[0]
+    length = end-start
+      
+    rle = []
+    for i in range(len(length)):
+        if i==0:
+            rle.extend([start[0], length[0]])
+        else:
+            rle.extend([start[i], length[i]])
 
-
-def run_length_encode(mask):
-    m = mask.T.flatten()
-    if m.sum() == 0:
-        rle=''
-    else:
-        m   = np.concatenate([[0], m, [0]])
-        run = np.where(m[1:] != m[:-1])[0] + 1
-        run[1::2] -= run[::2]
-        rle = ' '.join(str(r) for r in run)
+    rle = ' '.join([str(r) for r in rle])
     return rle
+
+def run_length_decode(rle, height=256, width=1600, fill_value=1):
+    component = np.zeros((height, width), np.float32)
+    if rle == '':
+        return component
+    component = component.reshape(-1)
+    rle  = np.array([int(s) for s in rle.split(' ')])
+    rle  = rle.reshape(-1, 2)
+    start = 0
+    for index,length in rle:
+        start = index
+        end   = start+length
+        component[start : end] = fill_value
+        start = end
+
+    component = component.reshape(width, height).T
+    return component
     
 def build_mask(series):
     mask = np.zeros((256, 1600, 4))
