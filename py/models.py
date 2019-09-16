@@ -46,7 +46,7 @@ class FPAv2(nn.Module):
         x = self.conv1(x)  # 256, 16, 16
         x = x * d2
 
-        # x = x + x_glob
+        x = x + x_glob
 
         return x
 

@@ -10,6 +10,7 @@ import math
 import argparser
 import configparser
 import cv2
+import zipfile
 
 import numpy as np
 import pandas as pd
@@ -18,6 +19,7 @@ from tqdm import tqdm
 from functools import partial
 from multiprocessing import cpu_count, Pool
 from joblib import Parallel, delayed
+from PIL import Image
 
 # =========================================================================== #
 # Pytorch                                                                     #

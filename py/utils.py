@@ -19,6 +19,7 @@ def seed_everything(seed):
     torch.cuda.manual_seed(seed)
     torch.backends.cudnn.deterministic = True
 
+# TODO: bug fix
 def rle2mask(rle, shape):
     '''
     rle: run-length as string formated
@@ -52,10 +53,34 @@ def mask2rle(img):
     runs[1::2] -= runs[::2]
     return ' '.join(str(x) for x in runs)
 
+def run_length_decode(rle, height=256, width=1600, fill_value=1):
+    mask = np.zeros((height,width), np.float32)
+    if rle != '':
+        mask=mask.reshape(-1)
+        r = [int(r) for r in rle.split(' ')]
+        r = np.array(r).reshape(-1, 2)
+        for start,length in r:
+            start = start-1 
+            mask[start:(start + length)] = fill_value
+        mask = mask.reshape(width, height).T
+    return mask
+
+
+def run_length_encode(mask):
+    m = mask.T.flatten()
+    if m.sum() == 0:
+        rle=''
+    else:
+        m   = np.concatenate([[0], m, [0]])
+        run = np.where(m[1:] != m[:-1])[0] + 1
+        run[1::2] -= run[::2]
+        rle = ' '.join(str(r) for r in run)
+    return rle
+    
 def build_mask(series):
     mask = np.zeros((256, 1600, 4))
     for i in range(4):
-        mask[:,:,i] = rle2mask(series[f'{i+1}'], (256, 1600))
+        mask[:,:,i] = run_length_decode(series[f'{i+1}'], (256, 1600))
     return mask
 
 def get_transforms():
