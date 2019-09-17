@@ -15,7 +15,7 @@ class ResnetUnet(nn.Module):
                  attention_type=None,
                  reduction=16,
                  reslink=False,
-                 out_channel=1,
+                 out_channel=4,
                  pretrained_file=None,
                  ):
         super().__init__()

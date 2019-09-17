@@ -78,7 +78,7 @@ class SEnetUnet(nn.Module):
         self.logit = nn.Sequential(
             ConvBnRelu2d(160, 64, kernel_size=3, padding=1),
             ConvBnRelu2d(64, 32, kernel_size=3, padding=1),
-            nn.Conv2d(32, 1, kernel_size=1, padding=0),
+            nn.Conv2d(32, 4, kernel_size=1, padding=0),
         )
     def forward(self, x, *args):
         x = self.conv1(x)
