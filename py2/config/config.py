@@ -28,5 +28,5 @@ STEEL = 'Steel'
 NIH_LABELS = [
     'Atelectasis', 'Cardiomegaly', 'Consolidation', 'Edema', 'Effusion',
     'Emphysema', 'Fibrosis', 'Hernia', 'Infiltration', 'Mass',
-    'No Finding', 'Nodule', 'Pleural_Thickening', 'Pneumonia', PNEUMOTHORAX
+    'No Finding', 'Nodule', 'Pleural_Thickening', 'Pneumonia', STEEL 
 ]
