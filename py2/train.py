@@ -24,7 +24,7 @@ from layers.scheduler import *
 from utils.log_util import Logger
 import copy
 
-loss_names = ['SymmetricLovaszLoss']
+loss_names = ['SymmetricLovaszLoss', 'BCEWithLogitsLoss']
 split_types = ['split', 'cropv3_split', 'lung_split']
 split_names = ['random_folds4', 'random_folds10']
 
@@ -39,7 +39,7 @@ parser.add_argument('--scheduler', default='Adam3', type=str, help='scheduler na
 parser.add_argument('--epochs', default=20, type=int, help='number of total epochs to run (default: 20)')
 parser.add_argument('--img_size', default=(256, 1600), type=int, help='image size (default: 768)')
 parser.add_argument('--batch_size', default=2, type=int, help='train mini-batch size (default: 10)')
-parser.add_argument('--workers', default=0, type=int, help='number of data loading workers (default: 4)')
+parser.add_argument('--workers', default=0, type=int, help='number of data loading workers (default: 0)')
 parser.add_argument('--split_type', default='split', type=str, choices=split_types,
                     help='split type options: ' + ' | '.join(split_types) + ' (default: split)')
 parser.add_argument('--split_name', default='random_folds10', type=str, choices=split_names,
