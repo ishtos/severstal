@@ -142,6 +142,7 @@ def main():
     # Data loading code
     # train_transform = train_multi_augment9
     # train_split_file = opj(DATA_DIR, args.split_type, args.split_name, 'random_train_cv%d.csv' % args.fold)
+    train_transform = None
     steel_df = pd.read_csv(opj('..', 'input', 'preprocessed_train.csv'))
     train_idx, valid_idx, _, _ = train_test_split(
                                             steel_df.index, 
