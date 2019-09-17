@@ -38,6 +38,7 @@ class SteelDataset(Dataset):
         if dataset in ['train', 'val']:
             if crop_version is None:
                 img_dir = opj(base_dir, 'train', 'images', 'images_256x1600')
+                print(img_dir)
         elif dataset in ['test']:
             if crop_version is None:
                 img_dir = opj(base_dir, 'test', 'images', 'images_256x1600')
