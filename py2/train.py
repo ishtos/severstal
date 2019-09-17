@@ -57,13 +57,13 @@ parser.add_argument('--pseudo_ratio', default=1., type=float, help='pseudo ratio
 def main():
     args = parser.parse_args()
 
-    log_out_dir = opj(RESULT_DIR, 'logs', args.out_dir, 'fold%d' % args.fold)
+    log_out_dir = opj(RESULT_DIR, 'logs', args.out_dir, f'fold{args.fold}')
     if not ope(log_out_dir):
         os.makedirs(log_out_dir)
     log = Logger()
     log.open(opj(log_out_dir, 'log.train.txt'), mode='a')
 
-    model_out_dir = opj(RESULT_DIR, 'models', args.out_dir, 'fold%d' % args.fold)
+    model_out_dir = opj(RESULT_DIR, 'models', args.out_dir, f'fold{args.fold}')
     log.write(">> Creating directory if it does not exist:\n>> '{}'\n".format(model_out_dir))
     if not ope(model_out_dir):
         os.makedirs(model_out_dir)
