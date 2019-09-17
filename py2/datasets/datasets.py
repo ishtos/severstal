@@ -72,7 +72,7 @@ class SteelDataset(Dataset):
                 self.pos_steel_df = self.steel_df[self.pos_flag]
                 self.neg_steel_df = self.steel_df[~self.pos_flag]
             else:
-                self.pos_flag = self.steel_df[TARGET].fillna('-1').astype(str) != '-1'
+                self.pos_flag = self.steel_df[TARGET] != 0
                 self.pos_steel_df = self.steel_df[self.pos_flag]
                 self.neg_steel_df = self.steel_df[~self.pos_flag]
         else:
@@ -133,7 +133,7 @@ class SteelDataset(Dataset):
             self.img_ids = steel_df[CROP_ID].values
         self.pseudo_flag = steel_df['pseudo'].values
         self.dataset = steel_df[DATASET].values
-        self.pos_flag = steel_df[TARGET] != '-1'
+        self.pos_flag = steel_df[TARGET] != 0
         self.pseudo_suffix = steel_df['suffix'].values
         self.pseudo_name = steel_df['pseudo_name'].values
         self.num = len(self.img_ids)
