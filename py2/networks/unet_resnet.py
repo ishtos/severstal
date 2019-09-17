@@ -121,4 +121,4 @@ class ResnetUnet(nn.Module):
 def unet_resnet34_cbam_v0a(**kwargs):
     pretrained_file = kwargs['pretrained_file']
     model = ResnetUnet(feature_net='resnet34', attention_type='cbam_v0a', pretrained_file=pretrained_file)
-return model
+    return model
