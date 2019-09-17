@@ -2,6 +2,8 @@
 import argparse
 import time
 import shutil
+import pandas as pd
+from sklearn.model_selection import train_test_split
 
 import torch
 import torch.optim
@@ -140,15 +142,15 @@ def main():
     # Data loading code
     # train_transform = train_multi_augment9
     # train_split_file = opj(DATA_DIR, args.split_type, args.split_name, 'random_train_cv%d.csv' % args.fold)
-    steel_df = pd.read_csv(opj('..', 'input', 'prerpocessed_train.csv'))
+    steel_df = pd.read_csv(opj('..', 'input', 'preprocessed_train.csv'))
     train_idx, valid_idx, _, _ = train_test_split(
-                                            train_df.index, 
-                                            train_df['split_label'], 
+                                            steel_df.index, 
+                                            steel_df['split_label'], 
                                             test_size=0.2, 
                                             random_state=43)
 
     train_dataset = SteelDataset(
-        steel_df[train_idx],
+        steel_df.iloc[train_idx],
         img_size=args.img_size,
         mask_size=args.img_size,
         transform=train_transform,
@@ -172,7 +174,7 @@ def main():
     )
     # valid_split_file = opj(DATA_DIR, args.split_type, args.split_name, 'random_valid_cv%d.csv' % args.fold)
     valid_dataset = SteelDataset(
-        steel_df[valid_idx],
+        steel_df.iloc[valid_idx],
         img_size=args.img_size,
         mask_size=args.img_size,
         transform=None,
