@@ -11,9 +11,9 @@ sk = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 hostname = socket.gethostname()
 print('run on %s' % hostname)
 
-RESULT_DIR = "/data4/data/siim_open/result"
-DATA_DIR = "/data5/data/siim_open"
-PRETRAINED_DIR = "/data5/data/pretrained"
+RESULT_DIR = "/output/result"
+DATA_DIR = "/intput"
+PRETRAINED_DIR = "/input/pretrained"
 PI  = np.pi
 INF = np.inf
 EPS = 1e-12
@@ -24,7 +24,7 @@ CROP_ID = 'CropImageId'
 MASK_AREA = 'MaskArea'
 DATASET = 'dataset'
 
-PNEUMOTHORAX = 'Pneumothorax'
+STEEL = 'Steel'
 NIH_LABELS = [
     'Atelectasis', 'Cardiomegaly', 'Consolidation', 'Edema', 'Effusion',
     'Emphysema', 'Fibrosis', 'Hernia', 'Infiltration', 'Mass',

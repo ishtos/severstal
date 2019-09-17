@@ -14,5 +14,7 @@ def image_to_tensor(image, mean=0, std=1.):
 def label_to_tensor(label):
     label_ret = label.astype(np.float32)
     label_ret = (label_ret > 0.1).astype(np.float32)
+    if len(label_ret.shape) == 3:
+        label_ret = label_ret.transpose((2,0,1)) 
     tensor = torch.from_numpy(label_ret).type(torch.FloatTensor)
     return tensor

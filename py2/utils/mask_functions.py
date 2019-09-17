@@ -18,7 +18,7 @@ def run_length_encode(component):
     rle = ' '.join([str(r) for r in rle])
     return rle
 
-def run_length_decode(rle, height=256, width=1600, fill_value=1):
+def run_length_decode(rle, height=256, width=1600, fill_value=1.):
     component = np.zeros((height, width), np.float32)
     if rle == '':
         return component
@@ -34,3 +34,9 @@ def run_length_decode(rle, height=256, width=1600, fill_value=1):
 
     component = component.reshape(width, height).T
     return component
+
+def build_mask(s, height, width):
+    mask = np.zeros((height, width, 4))
+    for i in range(4):
+        mask[:,:,i] = run_length_decode(s[f'{i+1}'], height, width)
+    return mask
