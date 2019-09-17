@@ -157,13 +157,13 @@ class SteelDataset(Dataset):
         #                         '%s.%s' % (img_id, pseudo_suffix))
         # else:
         #     img_fname = opj(self.img_dir, '%s.%s' % (img_id, self.suffix))
-        img_fname = opj(self.img_dir, '%s.%s' % (img_id, self.suffix))
+        img_fname = opj(self.img_dir, f'{img_id}')
 
         image = cv2.imread(img_fname)
         if image is None:
             print(img_fname)
-        if image.shape[0] != self.img_size[0] or image.shape[1] != self.img_size[1]:
-            image = cv2.resize(image, (self.img_size[0], self.img_size[1]), interpolation=cv2.INTER_LINEAR)
+        #if image.shape[0] != self.img_size[0] or image.shape[1] != self.img_size[1]:
+        #    image = cv2.resize(image, (self.img_size[0], self.img_size[1]), interpolation=cv2.INTER_LINEAR)
 
         if self.return_label:
             # if is_pseudo:

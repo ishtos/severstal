@@ -20,7 +20,7 @@ def run_length_encode(component):
 
 def run_length_decode(rle, height=256, width=1600, fill_value=1.):
     component = np.zeros((height, width), np.float32)
-    if rle == '':
+    if str(rle) == 'nan' or rle == 0:
         return component
     component = component.reshape(-1)
     rle  = np.array([int(s) for s in rle.split(' ')])

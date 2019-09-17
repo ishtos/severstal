@@ -12,7 +12,7 @@ hostname = socket.gethostname()
 print('run on %s' % hostname)
 
 RESULT_DIR = "../output/result"
-DATA_DIR = "../intput"
+DATA_DIR = "../input"
 PRETRAINED_DIR = "../input/pretrained"
 PI  = np.pi
 INF = np.inf

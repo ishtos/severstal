@@ -65,7 +65,7 @@ def test(test_loader, model, criterion):
         running_loss += loss.item() * inputs.size(0)
         precisions.append(do_kaggle_metric(predicts, truths))
 
-    precision = np.mean(presicions)
+    precision = np.mean(precisions)
     epoch_loss = running_loss / val_data.__len__()
     return epoch_loss, precision
 
