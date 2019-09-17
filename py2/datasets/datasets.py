@@ -22,7 +22,6 @@ class SteelDataset(Dataset):
                  crop_version=None,
                  dataset=None,
                  predict_pos=False):
-        self.mask_df = pd.read_csv(mask_file)
         self.img_size = img_size
         self.mask_size = mask_size
         self.return_label = return_label
@@ -182,7 +181,7 @@ class SteelDataset(Dataset):
             #     mask_file = opj(self.mask_dir, '%s.png' % img_id)
             
             # TODO: modify
-            mask = build_mask(self.mask_file.iloc[index], self.mask_size[0], self.mask_size[1])
+            mask = build_mask(self.steel_df.iloc[index], self.mask_size[0], self.mask_size[1])
             mask = mask.astype(np.int8)
 
             if self.transform is not None:
