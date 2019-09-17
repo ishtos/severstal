@@ -15,7 +15,7 @@ from torch.autograd import Variable
 from config.config import *
 from utils.common_util import *
 from networks.imageunet import init_network
-from datasets.datasets import SiimDataset, BalanceClassSampler
+from datasets.datasets import SteelDataset, BalanceClassSampler
 from utils.augment_util import train_multi_augment9
 from layers.loss_funcs.loss import *
 from layers.scheduler import *
@@ -149,7 +149,7 @@ def main():
                                             test_size=0.2, 
                                             random_state=43)
 
-    train_dataset = SiimDataset(
+    train_dataset = SteelDataset(
         steel_df[train_idx],
         img_size=args.img_size,
         mask_size=args.img_size,
@@ -173,7 +173,7 @@ def main():
         pin_memory=True,
     )
     # valid_split_file = opj(DATA_DIR, args.split_type, args.split_name, 'random_valid_cv%d.csv' % args.fold)
-    valid_dataset = SiimDataset(
+    valid_dataset = SteelDataset(
         steel_df[valid_idx],
         img_size=args.img_size,
         mask_size=args.img_size,
