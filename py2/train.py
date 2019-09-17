@@ -33,7 +33,7 @@ parser.add_argument('--out_dir', type=str, help='destination where trained netwo
 parser.add_argument('--gpu_id', default='0', type=str, help='gpu id used for training (default: 0)')
 parser.add_argument('--arch', default='unet_resnet34_cbam_v0a', type=str,
                     help='model architecture (default: unet_resnet34_cbam_v0a)')
-parser.add_argument('--loss', default='SymmetricLovaszLoss', choices=loss_names, type=str,
+parser.add_argument('--loss', default='BCEWithLogitsLoss', choices=loss_names, type=str,
                     help='loss function: ' + ' | '.join(loss_names) + ' (deafault: SymmetricLovaszLoss)')
 parser.add_argument('--scheduler', default='Adam3', type=str, help='scheduler name')
 parser.add_argument('--epochs', default=20, type=int, help='number of total epochs to run (default: 20)')
@@ -270,7 +270,8 @@ def train(train_loader, model, ema_model, criterion, optimizer, epoch, args, lr=
         masks = Variable(masks.cuda())
 
         outputs = model(images)
-        loss = criterion(outputs, masks, epoch=epoch)
+        loss = criterion(outputs, masks)
+        # loss = criterion(outputs, masks, epoch=epoch)
 
         losses.update(loss.item())
         loss.backward()
@@ -314,7 +315,8 @@ def validate(valid_loader, model, criterion, epoch):
         masks = Variable(masks.cuda())
 
         outputs = model(images)
-        loss = criterion(outputs, masks, epoch=epoch)
+        loss = criterion(outputs, masks)
+        # loss = criterion(outputs, masks, epoch=epoch)
         probs = F.sigmoid(outputs)
         dice = metric(probs, masks)
 
