@@ -138,10 +138,8 @@ def main():
             log.write(">> No checkpoint found at '{}'\n".format(model_fpath))
 
     # Data loading code
-    train_transform = train_multi_augment9
+    # train_transform = train_multi_augment9
     # train_split_file = opj(DATA_DIR, args.split_type, args.split_name, 'random_train_cv%d.csv' % args.fold)
-    
-    
     steel_df = pd.read_csv(opj('..', 'input', 'prerpocessed_train.csv'))
     train_idx, valid_idx, _, _ = train_test_split(
                                             train_df.index, 

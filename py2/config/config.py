@@ -11,9 +11,9 @@ sk = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 hostname = socket.gethostname()
 print('run on %s' % hostname)
 
-RESULT_DIR = "/output/result"
-DATA_DIR = "/intput"
-PRETRAINED_DIR = "/input/pretrained"
+RESULT_DIR = "../output/result"
+DATA_DIR = "../intput"
+PRETRAINED_DIR = "../input/pretrained"
 PI  = np.pi
 INF = np.inf
 EPS = 1e-12
