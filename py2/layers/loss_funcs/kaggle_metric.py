@@ -18,7 +18,6 @@ def do_kaggle_metric(predict, truth, threshold=0.5):
     score[score >= 1] = 1
     return score
 
-
 def get_batch_kaggle_score(param):
     df_submit, ids, start, batch_size = param
     end = np.minimum(start + batch_size, len(ids))
@@ -35,7 +34,6 @@ def get_batch_kaggle_score(param):
         truth[i] = t
     score = do_kaggle_metric(predict, truth, threshold=0.5)
     return score
-
 
 def get_kaggle_score(df_submit, df_truth=None, result_type='val', pool=None, return_mean=True):
     if df_truth is None:
