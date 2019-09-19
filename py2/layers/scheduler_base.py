@@ -205,6 +205,7 @@ class RAdam(Optimizer):
 
         return loss
 
+
 class PlainRAdam(Optimizer):
 
     def __init__(self, params, lr=1e-3, betas=(0.9, 0.999), eps=1e-8, weight_decay=0):
@@ -268,6 +269,8 @@ class PlainRAdam(Optimizer):
                 p.data.copy_(p_data_fp32)
 
         return loss
+
+
 class Lookahead(Optimizer):
     def __init__(self, base_optimizer,alpha=0.5, k=6):
         if not 0.0 <= alpha <= 1.0:
@@ -301,6 +304,7 @@ class Lookahead(Optimizer):
                 q.data.add_(self.alpha,p.data - q.data)
                 p.data.copy_(q.data)
         return loss
+
 
 class SchedulerBase(object):
     def __init__(self):

@@ -49,7 +49,7 @@ parser.add_argument('--ema', action='store_true', default=False)
 def main():
     args = parser.parse_args()
 
-    log_out_dir = opj(RESULT_DIR, 'logs', args.out_dir, 'fold%d' % args.fold)
+    log_out_dir = opj(RESULT_DIR, 'logs', args.out_dir, f'fold{args.fold}')
     if not ope(log_out_dir):
         os.makedirs(log_out_dir)
     log = Logger()
@@ -58,7 +58,7 @@ def main():
     if args.ema:
         network_path = opj(RESULT_DIR, 'models', args.out_dir, f'fold{args.fold}', '{args.predict_epoch}_ema.pth')
     else:
-        network_path = opj(RESULT_DIR, 'models', args.out_dir, f'fold{args.fold'}, '{args.predict_epoch}.pth')
+        network_path = opj(RESULT_DIR, 'models', args.out_dir, f'fold{args.fold}', '{args.predict_epoch}.pth')
 
     submit_out_dir = opj(RESULT_DIR, 'submissions', args.out_dir, 'fold{args.fold}', 'epoch_{args.predict_epoch}')
     log.write(">> Creating directory if it does not exist:\n>> '{}'\n".format(submit_out_dir))
@@ -133,7 +133,7 @@ def predict(test_loader, model, submit_out_dir, dataset, args, unaugment_func=No
         logits = outputs
 
         probs = F.sigmoid(logits).data
-        probs = probs.cpu().numpy().reshape(-1, args.img_size, args.img_size)
+        probs = probs.cpu().numpy().reshape(-1, args.img_size[0], args.img_size[1])
         probs = (probs * 255).astype('uint8')
 
         for pred_prob in probs:
