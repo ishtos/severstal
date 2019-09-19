@@ -37,7 +37,7 @@ parser.add_argument('--loss', default='BCEWithLogitsLoss', choices=loss_names, t
                     help='loss function: ' + ' | '.join(loss_names) + ' (deafault: BCEWithLogitsLoss)')
 parser.add_argument('--scheduler', default='Adam3', type=str, help='scheduler name')
 parser.add_argument('--epochs', default=20, type=int, help='number of total epochs to run (default: 20)')
-parser.add_argument('--img_size', default=(256, 1600), type=int, help='image size (default: 768)')
+parser.add_argument('--img_size', default=(256, 1600), type=int, help='image size (default: (256, 1600))')
 parser.add_argument('--batch_size', default=2, type=int, help='train mini-batch size (default: 10)')
 parser.add_argument('--workers', default=0, type=int, help='number of data loading workers (default: 0)')
 parser.add_argument('--split_type', default='split', type=str, choices=split_types,
