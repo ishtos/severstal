@@ -142,7 +142,7 @@ def main():
 
     # Data loading code
     # train_transform = train_multi_augment9
-    train_transform = albu_augment_normalize
+    train_transform = albu_augment_normalize()
     steel_df = pd.read_csv(opj('..', 'input', 'preprocessed_train.csv'))
     train_idx, valid_idx, _, _ = train_test_split(
                                             steel_df.index, 

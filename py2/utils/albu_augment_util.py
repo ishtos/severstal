@@ -12,7 +12,7 @@ def albu_augment_default(image, mask=None):
 def albu_augment_normalize(image, mask=None):
     mean = (0.485, 0.456, 0.406)
     std = (0.229, 0.224, 0.225)
-    transform = A.Compose([A.Normalize(mean, std)])
-    image = transform(image)
+    transforms = A.Compose([A.Normalize(mean, std)])
+    image = transforms(image)
     
     return image, mask
