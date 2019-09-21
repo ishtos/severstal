@@ -181,8 +181,7 @@ class SteelDataset(Dataset):
             mask = mask.astype(np.int8)
 
             if self.transform is not None:
-                image = self.transform(image=image)
-                image = image['image']
+                image, mask = self.transform(image=image, mask=mask)
 
             image = image / 255.0
             # mask = mask / 255.0
