@@ -18,7 +18,8 @@ from config.config import *
 from utils.common_util import *
 from networks.imageunet import init_network
 from datasets.datasets import SteelDataset, BalanceClassSampler
-from utils.augment_util import train_multi_augment9
+from utils.augment_util import *
+from utils.albu_augment_util import *
 from layers.loss_funcs.loss import *
 from layers.scheduler import *
 from utils.log_util import Logger
@@ -141,8 +142,7 @@ def main():
 
     # Data loading code
     # train_transform = train_multi_augment9
-    # train_split_file = opj(DATA_DIR, args.split_type, args.split_name, 'random_train_cv%d.csv' % args.fold)
-    train_transform = None
+    train_transform = albu_augment_normalize
     steel_df = pd.read_csv(opj('..', 'input', 'preprocessed_train.csv'))
     train_idx, valid_idx, _, _ = train_test_split(
                                             steel_df.index, 

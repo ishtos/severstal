@@ -1,6 +1,6 @@
 import cv2
+import numpy as np
 from imgaug import augmenters as iaa
-from config.config import *
 
 def train_multi_augment9(image, mask):
     augment_func_list = [

@@ -1,7 +1,7 @@
 import torch
 from torch.autograd import Variable
 import torch.nn.functional as F
-from layers.loss_funcs.loss import *
+# from layers.loss_funcs.loss import *
 
 
 class CBAM_Module(nn.Module):
