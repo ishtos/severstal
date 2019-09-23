@@ -160,6 +160,8 @@ class SteelDataset(Dataset):
         #if image.shape[0] != self.img_size[0] or image.shape[1] != self.img_size[1]:
         #    image = cv2.resize(image, (self.img_size[0], self.img_size[1]), interpolation=cv2.INTER_LINEAR)
 
+        print(image)
+        print(type(image))
         if self.return_label:
             # if is_pseudo:
             #     dataset = self.dataset[index]
