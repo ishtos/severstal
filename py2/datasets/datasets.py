@@ -193,8 +193,10 @@ class SteelDataset(Dataset):
             if self.transform is not None:
                 image = self.transform(image=image)
 
+            print(image)
+            print(type(image))
             image = image / 255.0
-            
+
             image = image_to_tensor(image)
             return image, index
 
