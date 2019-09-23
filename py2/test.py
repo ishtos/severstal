@@ -90,7 +90,7 @@ def main():
     # Data loading code
     dataset = args.dataset
     if dataset == 'test':
-        steel_test_df = pd.read_csv(opj('..', 'input', 'test.csv'))
+        steel_test_df = pd.read_csv(opj('..', 'input', 'sample_submission.csv'))
     elif dataset == 'val':
         steel_test_df = pd.read_csv(opj(DATA_DIR, args.split_type, args.split_name, f'random_valid_cv{args.fold}.csv'))
     else:
