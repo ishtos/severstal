@@ -56,11 +56,11 @@ def main():
     log.open(opj(log_out_dir, 'log.submit.txt'), mode='a')
 
     if args.ema:
-        network_path = opj(RESULT_DIR, 'models', args.out_dir, f'fold{args.fold}', '{args.predict_epoch}_ema.pth')
+        network_path = opj(RESULT_DIR, 'models', args.out_dir, f'fold{args.fold}', f'{args.predict_epoch}_ema.pth')
     else:
-        network_path = opj(RESULT_DIR, 'models', args.out_dir, f'fold{args.fold}', '{args.predict_epoch}.pth')
+        network_path = opj(RESULT_DIR, 'models', args.out_dir, f'fold{args.fold}', f'{args.predict_epoch}.pth')
 
-    submit_out_dir = opj(RESULT_DIR, 'submissions', args.out_dir, 'fold{args.fold}', 'epoch_{args.predict_epoch}')
+    submit_out_dir = opj(RESULT_DIR, 'submissions', args.out_dir, f'fold{args.fold}', f'epoch_{args.predict_epoch}')
     log.write(">> Creating directory if it does not exist:\n>> '{}'\n".format(submit_out_dir))
     if not ope(submit_out_dir):
         os.makedirs(submit_out_dir)
