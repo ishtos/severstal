@@ -190,8 +190,6 @@ class SteelDataset(Dataset):
 
             return image, mask, index
         else:
-            print(type(image))
-            print(self.transform)
             if self.transform is not None:
                 image = self.transform(image=image)[0]
 
