@@ -141,13 +141,12 @@ def predict(test_loader, model, submit_out_dir, dataset, args, unaugment_func=No
         probs = F.sigmoid(logits).data
         probs = probs.cpu().numpy().reshape(-1, args.img_size[0], args.img_size[1])
         probs = (probs * 255).astype('uint8')
-
+        
         for pred_prob in probs:
             pred_prob = unaugment_func(pred_prob)
-            for j in range(0, 4):
-                mask = (pred_prob[:, :, j] > args.threshold * 255).astype(np.float32)
-                rle = run_length_encode(mask)
-                rles.append(rle) 
+            mask = (pred_prob > args.threshold * 255).astype(np.float32)
+            rle = run_length_encode(mask)
+            rles.append(rle) 
             # all_probs.append(pred_prob)
     # all_probs = np.array(all_probs)
     # img_ids = img_ids[:len(all_probs)]
@@ -166,8 +165,9 @@ def predict(test_loader, model, submit_out_dir, dataset, args, unaugment_func=No
     #     else:
     #         rle = ''
     #         rles.append(rle)
-
+    print(len(rles))
     result_df = pd.read_csv(opj('..', 'input', 'sample_submission.csv'))
+    print(result_df.shape)
     result_df['EncodedPixels'] = rles
     # result_df = pd.DataFrame({ID: img_ids, TARGET: rles})
 
