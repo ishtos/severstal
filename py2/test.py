@@ -119,7 +119,7 @@ def main():
     )
 
     for augment in args.augment:
-        test_loader.dataset.transform = eval('augment_%s' % augment)
+        test_loader.dataset.transform = eval('unaugment_%s' % augment)
         unaugment_func = eval('unaugment_%s' % augment)
         sub_submit_out_dir = opj(submit_out_dir, augment)
         if not ope(sub_submit_out_dir):
