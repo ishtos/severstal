@@ -129,6 +129,8 @@ def main():
 
 def predict(test_loader, model, submit_out_dir, dataset, args, unaugment_func=None):
     all_probs = []
+    rles = []
+
     img_ids = np.array(test_loader.dataset.img_ids)
     for it, iter_data in tqdm(enumerate(test_loader, 0), total=len(test_loader)):
         images, indices = iter_data
@@ -142,27 +144,32 @@ def predict(test_loader, model, submit_out_dir, dataset, args, unaugment_func=No
 
         for pred_prob in probs:
             pred_prob = unaugment_func(pred_prob)
-            all_probs.append(pred_prob)
-    all_probs = np.array(all_probs)
-    img_ids = img_ids[:len(all_probs)]
-
-    # TODO: Modify
-    rles = []
-    for i in tqdm(range(len(all_probs))):
-        if args.dataset in ['test', 'val'] and args.crop_version is None:
-            pred_prob = all_probs[i]
             for j in range(0, 4):
-                pred_prob_ = cv2.resize(pred_prob[:, :, j], dsize=IMAGE_SIZE, interpolation=cv2.INTER_LINEAR)
-                mask = (pred_prob_ > args.threshold * 255).astype(np.float32)
-                if mask.sum() == 0:
-                    rle = ''
-                else:
-                    rle = run_length_encode(mask)
-                rles.append(rle)
-        else:
-            rle = ''
-            rles.append(rle)
-    result_df = pd.DataFrame({ID: img_ids, TARGET: rles})
+                mask = (pred_prob[:, :, j] > args.threshold * 255).astype(np.float32)
+                rle = run_length_encode(mask)
+                rles.append(rle) 
+            # all_probs.append(pred_prob)
+    # all_probs = np.array(all_probs)
+    # img_ids = img_ids[:len(all_probs)]
+
+    # for i in tqdm(range(len(all_probs))):
+    #     if args.dataset in ['test', 'val'] and args.crop_version is None:
+    #         pred_prob = all_probs[i]
+    #         for j in range(0, 4):
+    #             pred_prob_ = cv2.resize(pred_prob[:, :, j], dsize=IMAGE_SIZE, interpolation=cv2.INTER_LINEAR)
+    #             mask = (pred_prob_ > args.threshold * 255).astype(np.float32)
+    #             if mask.sum() == 0:
+    #                 rle = ''
+    #             else:
+    #                 rle = run_length_encode(mask)
+    #             rles.append(rle)
+    #     else:
+    #         rle = ''
+    #         rles.append(rle)
+
+    result_df = pd.read_csv(opj('..', 'input', 'sample_submission.csv'))
+    result_df['EncodedPixels'] = rles
+    # result_df = pd.DataFrame({ID: img_ids, TARGET: rles})
 
     np.savez_compressed(opj(submit_out_dir, 'prob_%s.npz' % dataset), data=all_probs)
     result_df.to_csv(opj(submit_out_dir, 'results_%s.csv.gz' % dataset), index=False, compression='gzip')
