@@ -191,8 +191,8 @@ class SteelDataset(Dataset):
             return image, mask, index
         else:
             if self.transform is not None:
-                image = self.transform(image)
-                image = image['image']
+                image = self.transform(image=image)
+                
             image = image / 255.0
             image = image_to_tensor(image)
             return image, index
