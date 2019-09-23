@@ -193,7 +193,7 @@ class SteelDataset(Dataset):
             print(type(image))
             print(self.transform)
             if self.transform is not None:
-                image = self.transform(image=image)
+                image = self.transform(image=image)[0]
 
             print(type(image))
             image = image / 255.0
