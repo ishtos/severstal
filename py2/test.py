@@ -95,6 +95,10 @@ def main():
         steel_test_df = pd.read_csv(opj(DATA_DIR, args.split_type, args.split_name, f'random_valid_cv{args.fold}.csv'))
     else:
         raise ValueError('Unsupported or unknown dataset: {}!'.format(dataset))
+
+    steel_test_df['ImageId'], steel_test_df['ClassId'] = zip(*steel_test_df['ImageId_ClassId'].apply(lambda x: x.split('_')))
+    imageId = pd.DataFrame(steel_test_df['ImageId'].unique(), columns=['ImageId'])
+
     test_dataset = SteelDataset(
         steel_test_df,
         img_size=args.img_size,
