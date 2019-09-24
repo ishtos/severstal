@@ -100,7 +100,7 @@ def main():
     imageId = pd.DataFrame(steel_test_df['ImageId'].unique(), columns=['ImageId'])
 
     test_dataset = SteelDataset(
-        steel_test_df,
+        imageId,
         img_size=args.img_size,
         mask_size=args.img_size,
         transform=None,
@@ -143,7 +143,7 @@ def predict(test_loader, model, submit_out_dir, dataset, args, unaugment_func=No
         probs = (probs * 255).astype('uint8')
         
         for pred_prob in probs:
-            pred_prob = unaugment_func(pred_prob)
+            # pred_prob = unaugment_func(pred_prob)
             mask = (pred_prob > args.threshold * 255).astype(np.float32)
             rle = run_length_encode(mask)
             rles.append(rle) 
