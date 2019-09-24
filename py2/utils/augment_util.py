@@ -18,6 +18,15 @@ def train_multi_augment9(image, mask):
 
     return image, mask
 
+def train_multi_augment1(image, mask):
+    augment_func_list = [
+        augment_default,
+        augment_fliplr,
+        augment_flipud,
+    ]
+    c = np.random.choice(len(augment_func_list))
+    image, mask = augment_func_list[c](image, mask)
+
 ###########################################################################################
 
 def augment_default(image, mask=None):
@@ -34,6 +43,16 @@ def augment_fliplr(image, mask=None):
 
 def unaugment_fliplr(prob):
     prob = np.fliplr(prob)
+    return prob
+
+def augment_flipud(image, mask=None):
+    image = np.flipud(image)
+    if mask is not None:
+        mask = np.flipud(mask)
+    return image, mask
+
+def unaugment_flipud(prob):
+    prob = np.flipud(prob)
     return prob
 
 def augment_random_brightness_shift(image, mask=None, limit=0.2):

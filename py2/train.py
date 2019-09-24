@@ -56,6 +56,7 @@ parser.add_argument('--ema_decay', type=float, default=0.9999)
 parser.add_argument('--ema_start', type=int, default=0)
 parser.add_argument('--pseudo', default=None, type=str, help='pseudo type, such as chexpert_pseudo')
 parser.add_argument('--pseudo_ratio', default=1., type=float, help='pseudo ratio selected for each epoch')
+parser.add_argument('--train_transform', default='augment_default', type=str, help='train augmentation list (default: augement_default)')
 
 def main():
     args = parser.parse_args()
@@ -142,7 +143,8 @@ def main():
 
     # Data loading code
     # train_transform = train_multi_augment9
-    train_transform = albu_augment_normalize
+    # train_transform = albu_augment_normalize
+    train_transform = eval(args.train_transform)
     steel_df = pd.read_csv(opj('..', 'input', 'preprocessed_train.csv'))
     train_idx, valid_idx, _, _ = train_test_split(
                                             steel_df.index, 
