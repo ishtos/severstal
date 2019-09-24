@@ -27,6 +27,8 @@ def train_multi_augment1(image, mask):
     c = np.random.choice(len(augment_func_list))
     image, mask = augment_func_list[c](image, mask)
 
+    return image, mask
+
 ###########################################################################################
 
 def augment_default(image, mask=None):
