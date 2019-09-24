@@ -2,28 +2,28 @@
 import argparse
 import time
 import shutil
+import copy
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
 import torch
 import torch.optim
-from torch.utils.data import DataLoader
-from torch.utils.data.sampler import RandomSampler, SequentialSampler
+import torch.nn.functional as F
 from torch.nn import DataParallel
 from torch.backends import cudnn
-import torch.nn.functional as F
 from torch.autograd import Variable
+from torch.utils.data import DataLoader
+from torch.utils.data.sampler import RandomSampler, SequentialSampler
 
 from config.config import *
-from utils.common_util import *
 from networks.imageunet import init_network
 from datasets.datasets import SteelDataset, BalanceClassSampler
-from utils.augment_util import *
-from utils.albu_augment_util import *
 from layers.loss_funcs.loss import *
 from layers.scheduler import *
+from utils.common_util import *
+from utils.augment_util import *
+from utils.albu_augment_util import *
 from utils.log_util import Logger
-import copy
 
 loss_names = ['SymmetricLovaszLoss', 'BCEWithLogitsLoss']
 split_types = ['split', 'cropv3_split', 'lung_split']
