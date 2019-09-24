@@ -176,7 +176,6 @@ class SteelDataset(Dataset):
             # else:
             #     mask_file = opj(self.mask_dir, '%s.png' % img_id)
             
-            # TODO: modify
             mask = build_mask(self.steel_df.iloc[index], self.mask_size[0], self.mask_size[1])
             mask = mask.astype(np.int8)
 
