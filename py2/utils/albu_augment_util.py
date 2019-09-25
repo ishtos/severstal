@@ -1,7 +1,7 @@
 import albumentations as A
 import albumentations.torch as AT
 
-def train_multi_augment(image, mask):
+def train_albu_multi_augment(image, mask):
     return image, mask 
 
 ###########################################################################################
