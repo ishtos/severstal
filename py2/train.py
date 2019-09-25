@@ -34,7 +34,7 @@ parser.add_argument('--out_dir', type=str, help='destination where trained netwo
 parser.add_argument('--gpu_id', default='0', type=str, help='gpu id used for training (default: 0)')
 parser.add_argument('--arch', default='unet_resnet34_cbam_v0a', type=str,
                     help='model architecture (default: unet_resnet34_cbam_v0a)')
-parser.add_argument('--loss', default='BCEWithLogitsLoss', choices=loss_names, type=str,
+parser.add_argument('--loss', default='SymmetricLovaszLoss', choices=loss_names, type=str,
                     help='loss function: ' + ' | '.join(loss_names) + ' (deafault: BCEWithLogitsLoss)')
 parser.add_argument('--scheduler', default='Adam3', type=str, help='scheduler name')
 parser.add_argument('--epochs', default=20, type=int, help='number of total epochs to run (default: 20)')
