@@ -1,7 +1,8 @@
 import math
+import itertools as it
+
 import torch
 from torch.optim.optimizer import Optimizer
-import itertools as it
 
 
 # from torch.optim import Optimizer

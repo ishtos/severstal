@@ -7,11 +7,11 @@ import re
 import math
 import collections
 from functools import partial
-import torch
-from torch import nn
-from torch.nn import functional as F
-from torch.utils import model_zoo
 
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.utils import model_zoo
 
 ########################################################################
 ############### HELPERS FUNCTIONS FOR MODEL ARCHITECTURE ###############

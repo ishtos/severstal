@@ -1,8 +1,9 @@
 import torch.nn.functional as F
-from layers.scheduler import *
-from layers.backbone.resnet import *
+
 from utils.common_util import *
 from layers.layer_util import *
+from layers.scheduler import *
+from layers.backbone.resnet import *
 
 ## net  ######################################################################
 class ResnetUnet(nn.Module):

@@ -1,20 +1,20 @@
 # coding: utf-8
 import argparse
-from tqdm import tqdm
 import pandas as pd
+from tqdm import tqdm
 
 import torch
 import torch.optim
+import torch.nn.functional as F
+from torch.nn import DataParallel
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import SequentialSampler
-from torch.nn import DataParallel
-import torch.nn.functional as F
 from torch.autograd import Variable
 
 from config.config import *
-from utils.common_util import *
 from networks.imageunet import init_network
 from datasets.datasets import SteelDataset
+from utils.common_util import *
 from utils.augment_util import *
 from utils.log_util import Logger
 from utils.mask_functions import run_length_encode

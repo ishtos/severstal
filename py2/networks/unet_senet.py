@@ -1,7 +1,7 @@
-from layers.scheduler import *
-from layers.backbone.senet import *
 from utils.common_util import *
 from layers.layer_util import *
+from layers.scheduler import *
+from layers.backbone.senet import *
 
 ## net  ######################################################################
 class SEnetUnet(nn.Module):
