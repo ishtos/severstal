@@ -42,7 +42,9 @@ class SEnetUnet(nn.Module):
             self.backbone = senet154()
             self.EX = 4
 
-        self.load_pretrain(pretrained_file)
+        if pretrained_file is not None:
+            self.load_pretrain(pretrained_file)
+            
         self.conv1 =nn.Sequential(*list(self.backbone.layer0.children())[:-1])
         self.encoder2 = self.backbone.layer1  # 64*self.EX
         self.encoder3 = self.backbone.layer2  # 128*self.EX

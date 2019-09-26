@@ -413,9 +413,3 @@ def se_resnext101_32x4d(num_classes=1000):
                   downsample_kernel_size=1, downsample_padding=0,
                   num_classes=num_classes)
     return model
-
-if __name__ == "__main__":
-    net=se_resnext50_32x4d(10)
-    input = torch.randn(2, 3, 128, 128)
-    output = net.forward(input)
-    print(output.shape)

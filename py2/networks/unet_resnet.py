@@ -38,8 +38,10 @@ class ResnetUnet(nn.Module):
         elif feature_net == 'resnet152':
             self.resnet = resnet152()
             self.EX = 4
-
-        self.load_pretrain(pretrained_file)
+        
+        if pretrained_file is not None:
+            self.load_pretrain(pretrained_file)
+            
         self.conv1 = nn.Sequential(
             self.resnet.conv1,
             self.resnet.bn1,
