@@ -178,7 +178,7 @@ class SteelDataset(Dataset):
             
             mask = build_mask(self.steel_df.iloc[index], self.mask_size[0], self.mask_size[1])
             mask = mask.astype(np.int8)
-
+            
             if self.transform is not None:
                 image, mask = self.transform(image=image, mask=mask)
 
