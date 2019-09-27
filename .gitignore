@@ -111,7 +111,7 @@ input/
 
 # output
 output/*
-!result/logs
+!/result/logs
 
 # weights
 weights/
