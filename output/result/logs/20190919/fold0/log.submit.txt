@@ -1,0 +1,208 @@
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold{args.fold}/epoch_{args.predict_epoch}'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/{args.predict_epoch}.pth'
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
+>> Creating directory if it does not exist:
+>> '../output/result/submissions/20190919/fold0/epoch_final'
+>> Loading network:
+>>>> '../output/result/models/20190919/fold0/final.pth'
+>>>> loaded network:
+>>>> epoch 13
