@@ -39,8 +39,8 @@ parser.add_argument('--loss', default='SymmetricLovaszLoss', choices=loss_names,
 parser.add_argument('--scheduler', default='Adam3', type=str, help='scheduler name')
 parser.add_argument('--epochs', default=20, type=int, help='number of total epochs to run (default: 20)')
 parser.add_argument('--img_size', default=(256, 1600), type=int, help='image size (default: (256, 1600))')
-parser.add_argument('--batch_size', default=2, type=int, help='train mini-batch size (default: 10)')
-parser.add_argument('--workers', default=0, type=int, help='number of data loading workers (default: 0)')
+parser.add_argument('--batch_size', default=8, type=int, help='train mini-batch size (default: 10)')
+parser.add_argument('--workers', default=8, type=int, help='number of data loading workers (default: 8)')
 parser.add_argument('--split_type', default='split', type=str, choices=split_types,
                     help='split type options: ' + ' | '.join(split_types) + ' (default: split)')
 parser.add_argument('--split_name', default='random_folds10', type=str, choices=split_names,
