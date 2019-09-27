@@ -110,7 +110,8 @@ venv.bak/
 input/
 
 # output
-output/
+output/*
+!result/logs
 
 # weights
 weights/
