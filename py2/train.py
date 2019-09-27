@@ -142,10 +142,14 @@ def main():
             log.write(">> No checkpoint found at '{}'\n".format(model_fpath))
 
     # Data loading code
-    # train_transform = train_multi_augment9
-    # train_transform = albu_augment_normalize
     train_transform = eval(args.train_transform)
-    steel_df = pd.read_csv(opj('..', 'input', 'preprocessed_train.csv'))
+    steel_df = pd.read_csv(os.path.join(DATA_DIR, 'train.csv'))
+    steel_df['ImageId'], steel_df['ClassId'] = zip(*steel_df['ImageId_ClassId'].apply(lambda x: x.split('_')))
+    steel_df = pd.pivot_table(steel_df, index='ImageId', columns='ClassId', values='EncodedPixels', aggfunc=lambda x: x, dropna=False)
+    steel_df = steel_df.reset_index()
+    steel_df.columns = [str(i) for i in steel_df.columns.values]
+    steel_df['class_count'] = steel_df[['1', '2', '3', '4']].count(axis=1)
+    steel_df['split_label'] = steel_df[['1', '2', '3', '4', 'class_count']].apply(lambda x: make_split_label(x), axis=1)
     train_idx, valid_idx, _, _ = train_test_split(
                                             steel_df.index, 
                                             steel_df['split_label'], 
