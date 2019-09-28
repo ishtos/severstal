@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, '../..')
 
 import torch.nn as nn
-from torch.nn import BCEWithLogitsLoss 
+from torch.nn import BCEWithLogitsLoss, BCELoss
 
 from layers.loss_funcs import lovasz_losses as L
 
