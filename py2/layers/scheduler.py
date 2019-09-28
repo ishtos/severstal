@@ -22,7 +22,7 @@ class Adam3(SchedulerBase):
 
 class Adam4(SchedulerBase):
     def __init__(self,params_list=None):
-        super(Adam3, self).__init__()
+        super(Adam4, self).__init__()
         self._lr = 1e-3
         self._cur_optimizer = None
         self.params_list=params_list
