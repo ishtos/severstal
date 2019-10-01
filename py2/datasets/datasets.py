@@ -16,12 +16,8 @@ class SteelDataset(Dataset):
                  img_size=(256, 1600),
                  mask_size=(256, 1600),
                  transform=None,
-                 return_label=True,
-                 pseudo=None,
-                 pseudo_ratio=0.,
-                 crop_version=None,
-                 dataset=None,
-                 predict_pos=False):
+                 return_label=False,
+                 dataset=None):
         self.img_size = img_size
         self.mask_size = mask_size
         self.return_label = return_label
@@ -37,14 +33,10 @@ class SteelDataset(Dataset):
         else:
             raise ValueError(dataset)
 
-        if crop_version is None:
-            self.img_ids = self.steel_df[ID].values
-        else:
-            self.img_ids = self.steel_df[CROP_ID].values
-
+        
+        self.img_ids = self.steel_df[ID].values
         self.img_dir = img_dir
         self.num = len(self.img_ids)
-
         self.basic_img_ids = self.img_ids
         self.transform = transform
 

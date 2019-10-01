@@ -163,11 +163,7 @@ def main():
         mask_size=args.img_size,
         transform=train_transform,
         return_label=True,
-        crop_version=args.crop_version,
-        pseudo=args.pseudo,
-        pseudo_ratio=args.pseudo_ratio,
         dataset='train',
-        predict_pos=args.predict_pos
     )
     if args.is_balance:
         train_sampler = BalanceClassSampler(train_dataset, args.sample_times * len(train_dataset))
@@ -188,7 +184,6 @@ def main():
         mask_size=args.img_size,
         transform=None,
         return_label=True,
-        crop_version=args.crop_version,
         dataset='val',
     )
     valid_loader = DataLoader(
