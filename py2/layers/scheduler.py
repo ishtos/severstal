@@ -8,7 +8,7 @@ class Adam3(SchedulerBase):
         self._lr = 1e-4
         self._cur_optimizer = None
         self.params_list=params_list
-    def schedule(self,net, epoch, epochs, **kwargs):
+    def schedule(self, net, epoch, epochs, **kwargs):
         lr = 1e-4
         if epoch > 25:
             lr = 5e-5
