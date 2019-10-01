@@ -49,7 +49,7 @@ parser.add_argument('--fold', default=0, type=int, help='index of fold (default:
 parser.add_argument('--clipnorm', default=1, type=int, help='clip grad norm')
 parser.add_argument('--resume', default=None, type=str, help='name of the latest checkpoint (default: None)')
 parser.add_argument('--crop_version', default=None, type=str, help='the cropped version (default: None)')
-parser.add_argument('--is_balance', default=1, type=int, help='is_balance')
+parser.add_argument('--is_balance', default=False, type=bool, help='is_balance')
 parser.add_argument('--sample_times', type=int, default=3)
 parser.add_argument('--ema', action='store_true', default=False)
 parser.add_argument('--ema_decay', type=float, default=0.9999)
@@ -169,7 +169,7 @@ def main():
         train_sampler = BalanceClassSampler(train_dataset, args.sample_times * len(train_dataset))
     else:
         train_sampler = RandomSampler(train_dataset)
-        
+
     train_loader = DataLoader(
         train_dataset,
         sampler=train_sampler,
