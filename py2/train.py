@@ -25,7 +25,7 @@ from utils.augment_util import *
 from utils.albu_augment_util import *
 from utils.log_util import Logger
 
-loss_names = ['SymmetricLovaszLoss', 'BCEWithLogitsLoss', 'BCELoss']
+loss_names = ['SymmetricLovaszLoss', 'BCEWithLogitsLoss', 'BCELoss', 'BCEDiceLoss']
 split_types = ['split', 'cropv3_split', 'lung_split']
 split_names = ['random_folds4', 'random_folds10']
 
@@ -57,6 +57,7 @@ parser.add_argument('--ema_start', type=int, default=0)
 parser.add_argument('--pseudo', default=None, type=str, help='pseudo type, such as chexpert_pseudo')
 parser.add_argument('--pseudo_ratio', default=1., type=float, help='pseudo ratio selected for each epoch')
 parser.add_argument('--train_transform', default='augment_default', type=str, help='train augmentation list (default: augement_default)')
+parser.add_argument('--predict_pos', default=False, type=bool)
 
 def main():
     args = parser.parse_args()
@@ -162,9 +163,6 @@ def main():
         mask_size=args.img_size,
         transform=train_transform,
         return_label=True,
-        crop_version=args.crop_version,
-        pseudo=args.pseudo,
-        pseudo_ratio=args.pseudo_ratio,
         dataset='train',
     )
     if args.is_balance:
@@ -186,7 +184,6 @@ def main():
         mask_size=args.img_size,
         transform=None,
         return_label=True,
-        crop_version=args.crop_version,
         dataset='val',
     )
     valid_loader = DataLoader(

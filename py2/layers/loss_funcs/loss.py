@@ -6,20 +6,38 @@ from torch.nn import BCEWithLogitsLoss, BCELoss
 
 from layers.loss_funcs import lovasz_losses as L
 
-def dice_score(prob, truth, threshold=0.5):
-    num = prob.size(0)
 
-    prob = prob > threshold
-    truth = truth > 0.5
+class DiceLoss(nn.Module):
+    def __init__(self):
+        super(DiceLoss, self).__init__()
+    
+    def forwaed(self, logits, targets, threshold):
+        num = logits.size(0)
 
-    prob = prob.view(num, -1)
-    truth = truth.view(num, -1)
-    intersection = (prob * truth)
+        logits = logits > threshold
+        targets = targets > 0.5
 
-    score = 2. * (intersection.sum(1) + 1.).float() / (prob.sum(1) + truth.sum(1) + 2.).float()
-    score[score >= 1] = 1
-    score = score.sum() / num
-    return score
+        logits = logits.view(num, -1)
+        targets = targets.view(num, -1)
+        intersection = (logits * targets)
+
+        score = 2. * (intersection.sum(1) + 1.).float() / (logits.sum(1) + targets.sum(1) + 2.).float()
+        score[score >= 1] = 1
+        score = 1 - score.sum() / num
+
+        return score
+
+
+class BCEDiceLoss(nn.Module):
+    def __init__(self):
+        super(BCEDiceLoss, self).__init__()
+        self.bce = BCELoss()
+        self.dice = DiceLoss()
+
+    def forward(self, logits, targets, threshold=0.5):
+        bce = self.bce(logits, targets)
+        dice = self.dice(logits, targets, threshold)
+        return 0.5 * bce + dice
 
 
 class SymmetricLovaszLoss(nn.Module):

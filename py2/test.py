@@ -105,9 +105,7 @@ def main():
         mask_size=args.img_size,
         transform=None,
         return_label=False,
-        crop_version=args.crop_version,
         dataset=args.dataset,
-        predict_pos=args.predict_pos,
     )
     test_loader = DataLoader(
         test_dataset,
