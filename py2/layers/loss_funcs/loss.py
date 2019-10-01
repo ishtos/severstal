@@ -11,7 +11,7 @@ class DiceLoss(nn.Module):
     def __init__(self):
         super(DiceLoss, self).__init__()
     
-    def forwaed(self, logits, targets, threshold):
+    def forward(self, logits, targets, threshold):
         num = logits.size(0)
 
         logits = logits > threshold
