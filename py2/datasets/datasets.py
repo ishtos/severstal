@@ -18,6 +18,7 @@ class SteelDataset(Dataset):
                  transform=None,
                  return_label=False,
                  dataset=None):
+        self.steel_df = steel_df
         self.img_size = img_size
         self.mask_size = mask_size
         self.return_label = return_label
@@ -32,7 +33,6 @@ class SteelDataset(Dataset):
         else:
             raise ValueError(dataset)
 
-        
         self.img_ids = self.steel_df[ID].values
         self.img_dir = img_dir
         self.num = len(self.img_ids)
