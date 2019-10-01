@@ -74,3 +74,32 @@ class SteelDataset(Dataset):
 
     def __len__(self):
         return self.num
+
+
+class BalanceClassSampler(Sampler):
+    def __init__(self, dataset, length=None):
+        self.dataset = dataset
+        if length is None:
+            length = len(self.dataset)
+        self.length = int(length)
+
+        half = self.length // 2 + 1
+        self.pos_length = half
+        self.neg_length = half
+        print('pos num: %s, neg num: %s' % (self.pos_length, self.neg_length))
+
+    def __iter__(self):
+        pos_index = np.where(self.dataset.pos_flag)[0]
+        neg_index = np.where(~self.dataset.pos_flag)[0]
+
+        pos = np.random.choice(pos_index, self.pos_length, replace=True)
+        neg = np.random.choice(neg_index, self.neg_length, replace=True)
+
+        l = np.hstack([pos, neg]).T
+        l = l.reshape(-1)
+        np.random.shuffle(l)
+        l = l[:self.length]
+        return iter(l)
+
+    def __len__(self):
+        return self.length

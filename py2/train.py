@@ -169,6 +169,7 @@ def main():
         train_sampler = BalanceClassSampler(train_dataset, args.sample_times * len(train_dataset))
     else:
         train_sampler = RandomSampler(train_dataset)
+        
     train_loader = DataLoader(
         train_dataset,
         sampler=train_sampler,
