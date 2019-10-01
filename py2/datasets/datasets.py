@@ -21,7 +21,6 @@ class SteelDataset(Dataset):
         self.img_size = img_size
         self.mask_size = mask_size
         self.return_label = return_label
-        self.crop_version = crop_version
         self.dataset = dataset
         self.suffix = 'jpg'
        
