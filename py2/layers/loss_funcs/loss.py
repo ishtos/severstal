@@ -28,3 +28,14 @@ class SymmetricLovaszLoss(nn.Module):
     
     def forward(self, logits, targets):
         return ((L.lovasz_hinge(logits, targets, per_image=True)) + (L.lovasz_hinge(-logits, 1-targets, per_image=True))) / 2
+
+
+class BCEDiceLoss(nn.Module):
+    def __init__(self):
+        super(BCEDiceLoss, self).__init__()
+
+    def forward(self, logits, targets, smooth=1e-5, threshold=0.5):
+        bce = F.binary_cross_entropy(logits, targets)
+        dice = dice_score(logits, targets, threshold)
+        dice = 1 - dice.sum() / num
+        return 0.5 * bce + dice
