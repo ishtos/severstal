@@ -23,7 +23,6 @@ class SteelDataset(Dataset):
         self.mask_size = mask_size
         self.return_label = return_label
         self.dataset = dataset
-        self.suffix = 'jpg'
        
         base_dir = DATA_DIR
         if dataset in ['train', 'val']:
@@ -33,6 +32,9 @@ class SteelDataset(Dataset):
         else:
             raise ValueError(dataset)
 
+        self.pos_flag = steel_df[SPLIT] != 0
+        self.pos_steel_df = self.steel_df[self.pos_flag]
+        self.neg_steel_df = self.steel_df[~self.pos_flag]
         self.img_ids = self.steel_df[ID].values
         self.img_dir = img_dir
         self.num = len(self.img_ids)

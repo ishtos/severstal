@@ -6,8 +6,10 @@ opj = os.path.join
 from utils.mask_functions import run_length_encode, run_length_decode
 
 def make_split_label(x):
-    if x['class_count'] != 1:
+    if x['class_count'] == 0:
         return 0
+    if x['class_count'] <= 2:
+        return 5
     if str(x['1']) != 'nan':
         return 1
     if str(x['2']) != 'nan':
