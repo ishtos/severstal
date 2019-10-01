@@ -33,8 +33,6 @@ def train_multi_augment2(image, mask):
     augment_func_list = [
         augment_default,
         augment_fliplr,
-        augment_flipud,
-        augment_random_crop,
     ]
     c = np.random.choice(len(augment_func_list))
     image, mask = augment_func_list[c](image, mask)
