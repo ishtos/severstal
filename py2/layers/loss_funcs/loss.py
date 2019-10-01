@@ -31,7 +31,7 @@ class DiceLoss(nn.Module):
 class BCEDiceLoss(nn.Module):
     def __init__(self):
         super(BCEDiceLoss, self).__init__()
-        self.bce = BCELoss()
+        self.bce = BCEWithLogitsLoss()
         self.dice = DiceLoss()
 
     def forward(self, logits, targets, threshold=0.5):
