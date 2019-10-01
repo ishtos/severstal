@@ -1,0 +1,50 @@
+>> Creating directory if it does not exist:
+>> '../output/result/models/augment_default_BCEDiceLoss/fold0'
+>> Creating directory if it does not exist:
+>> '../output/result/models/augment_default_BCEDiceLoss/fold0'
+>> Creating directory if it does not exist:
+>> '../output/result/models/augment_default_BCEDiceLoss/fold0'
+>> Creating directory if it does not exist:
+>> '../output/result/models/augment_default_BCEDiceLoss/fold0'
+** start training here! **
+
+epoch    iter      rate     | smooth_loss/dice | valid_loss/dice | best_epoch/best_score |  min 
+------------------------------------------------------------------------------------------------
+>> Creating directory if it does not exist:
+>> '../output/result/models/augment_default_BCEDiceLoss/fold0'
+** start training here! **
+
+epoch    iter      rate     | smooth_loss/dice | valid_loss/dice | best_epoch/best_score |  min 
+------------------------------------------------------------------------------------------------
+>> Creating directory if it does not exist:
+>> '../output/result/models/augment_default_BCEDiceLoss/fold0'
+** start training here! **
+
+epoch    iter      rate     | smooth_loss/dice | valid_loss/dice | best_epoch/best_score |  min 
+------------------------------------------------------------------------------------------------
+>> Creating directory if it does not exist:
+>> '../output/result/models/augment_default_BCEDiceLoss/fold0'
+** start training here! **
+
+epoch    iter      rate     | smooth_loss/dice | valid_loss/dice | best_epoch/best_score |  min 
+------------------------------------------------------------------------------------------------
+  1.0     837    0.000100   |  0.9311  0.2560  |  0.7460  0.4855 |     1.0     0.4855    | 12.8 min 
+  2.0     837    0.000100   |  0.6866  0.5076  |  0.6008  0.5440 |     2.0     0.5440    | 12.5 min 
+  3.0     837    0.000100   |  0.5812  0.5064  |  0.5466  0.6190 |     3.0     0.6190    | 12.5 min 
+  4.0     837    0.000100   |  0.5055  0.6086  |  0.3794  0.6682 |     4.0     0.6682    | 12.5 min 
+  5.0     837    0.000100   |  0.3973  0.6738  |  0.3395  0.7065 |     5.0     0.7065    | 12.5 min 
+  6.0     837    0.000100   |  0.3383  0.7002  |  0.3714  0.6779 |     5.0     0.7065    | 12.5 min 
+  7.0     837    0.000100   |  0.3003  0.7259  |  0.2985  0.7089 |     7.0     0.7089    | 12.5 min 
+  8.0     837    0.000100   |  0.2826  0.7343  |  0.2785  0.7412 |     8.0     0.7412    | 12.5 min 
+  9.0     837    0.000100   |  0.2593  0.7525  |  0.2939  0.7197 |     8.0     0.7412    | 12.5 min 
+ 10.0     837    0.000100   |  0.2518  0.7594  |  0.3030  0.7240 |     8.0     0.7412    | 12.5 min 
+ 11.0     837    0.000100   |  0.2451  0.7639  |  0.2703  0.7411 |     8.0     0.7412    | 12.5 min 
+ 12.0     837    0.000100   |  0.2267  0.7816  |  0.3184  0.6960 |     8.0     0.7412    | 12.5 min 
+ 13.0     837    0.000100   |  0.2197  0.7904  |  0.2844  0.7416 |    13.0     0.7416    | 12.5 min 
+ 14.0     837    0.000100   |  0.2207  0.8113  |  0.2825  0.7471 |    14.0     0.7471    | 12.5 min 
+ 15.0     837    0.000100   |  0.1972  0.8299  |  0.2675  0.7529 |    15.0     0.7529    | 12.5 min 
+ 16.0     837    0.000100   |  0.1641  0.8493  |  0.2512  0.7527 |    15.0     0.7529    | 12.5 min 
+ 17.0     837    0.000100   |  0.1710  0.8368  |  0.2605  0.7485 |    15.0     0.7529    | 12.5 min 
+ 18.0     837    0.000100   |  0.1485  0.8604  |  0.2448  0.7664 |    18.0     0.7664    | 12.5 min 
+ 19.0     837    0.000100   |  0.1337  0.8737  |  0.2448  0.7722 |    19.0     0.7722    | 12.5 min 
+ 20.0     837    0.000100   |  0.1342  0.8732  |  0.2558  0.7500 |    19.0     0.7722    | 12.5 min 
