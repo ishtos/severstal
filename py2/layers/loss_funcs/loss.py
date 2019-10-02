@@ -22,7 +22,7 @@ def dice_score(prob, truth, threshold=0.5):
     score = score.sum() / num
     return score
 
-
+# TODO: clean up
 class DiceLoss(nn.Module):
     def __init__(self):
         super(DiceLoss, self).__init__()
