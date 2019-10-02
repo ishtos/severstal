@@ -1,0 +1,12 @@
+>> Creating directory if it does not exist:
+>> '../output/result/models/augment_default_no_balance/fold0'
+** start training here! **
+
+epoch    iter      rate     | smooth_loss/dice | valid_loss/dice | best_epoch/best_score |  min 
+------------------------------------------------------------------------------------------------
+>> Creating directory if it does not exist:
+>> '../output/result/models/augment_default_no_balance/fold0'
+** start training here! **
+
+epoch    iter      rate     | smooth_loss/dice | valid_loss/dice | best_epoch/best_score |  min 
+------------------------------------------------------------------------------------------------
