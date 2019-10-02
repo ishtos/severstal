@@ -57,6 +57,7 @@ parser.add_argument('--ema_start', type=int, default=0)
 parser.add_argument('--pseudo', default=None, type=str, help='pseudo type, such as chexpert_pseudo')
 parser.add_argument('--pseudo_ratio', default=1., type=float, help='pseudo ratio selected for each epoch')
 parser.add_argument('--train_transform', default='augment_default', type=str, help='train augmentation list (default: augement_default)')
+parser.add_argument('--predict_pos', default=False, type=bool)
 
 def main():
     args = parser.parse_args()

@@ -32,30 +32,16 @@ split_names = ['random_folds4', 'random_folds10']
 parser = argparse.ArgumentParser(description='PyTorch SIIM Segmentation')
 parser.add_argument('--out_dir', type=str, help='destination where trained network should be saved')
 parser.add_argument('--gpu_id', default='0', type=str, help='gpu id used for training (default: 0)')
-parser.add_argument('--arch', default='unet_resnet34_cbam_v0a', type=str,
-                    help='model architecture (default: unet_resnet34_cbam_v0a)')
-parser.add_argument('--loss', default='SymmetricLovaszLoss', choices=loss_names, type=str,
-                    help='loss function: ' + ' | '.join(loss_names) + ' (deafault: SymmetricLovaszLoss)')
+parser.add_argument('--arch', default='unet_resnet34_cbam_v0a', type=str, help='model architecture (default: unet_resnet34_cbam_v0a)')
+parser.add_argument('--loss', default='SymmetricLovaszLoss', choices=loss_names, type=str, help='loss function: ' + ' | '.join(loss_names) + ' (deafault: SymmetricLovaszLoss)')
 parser.add_argument('--scheduler', default='Adam3', type=str, help='scheduler name')
 parser.add_argument('--epochs', default=20, type=int, help='number of total epochs to run (default: 20)')
 parser.add_argument('--img_size', default=(256, 1600), type=int, help='image size (default: (256, 1600))')
 parser.add_argument('--batch_size', default=12, type=int, help='train mini-batch size (default: 12)')
 parser.add_argument('--workers', default=8, type=int, help='number of data loading workers (default: 8)')
-parser.add_argument('--split_type', default='split', type=str, choices=split_types,
-                    help='split type options: ' + ' | '.join(split_types) + ' (default: split)')
-parser.add_argument('--split_name', default='random_folds10', type=str, choices=split_names,
-                    help='split name options: ' + ' | '.join(split_names) + ' (default: random_folds10)')
 parser.add_argument('--fold', default=0, type=int, help='index of fold (default: 0)')
-parser.add_argument('--clipnorm', default=1, type=int, help='clip grad norm')
 parser.add_argument('--resume', default=None, type=str, help='name of the latest checkpoint (default: None)')
 parser.add_argument('--crop_version', default=None, type=str, help='the cropped version (default: None)')
-parser.add_argument('--is_balance', default=False, type=bool, help='is_balance')
-parser.add_argument('--sample_times', type=int, default=3)
-parser.add_argument('--ema', action='store_true', default=False)
-parser.add_argument('--ema_decay', type=float, default=0.9999)
-parser.add_argument('--ema_start', type=int, default=0)
-parser.add_argument('--pseudo', default=None, type=str, help='pseudo type, such as chexpert_pseudo')
-parser.add_argument('--pseudo_ratio', default=1., type=float, help='pseudo ratio selected for each epoch')
 parser.add_argument('--train_transform', default='augment_default', type=str, help='train augmentation list (default: augement_default)')
 
 def main():
@@ -88,12 +74,7 @@ def main():
     # move network to gpu
     model = DataParallel(model)
     model.cuda()
-
-    if args.ema:
-        ema_model = copy.deepcopy(model)
-        ema_model.cuda()
-    else:
-        ema_model = None
+    ema_model = None
 
     # define loss function (criterion)
     try:
@@ -131,12 +112,6 @@ def main():
             if ope(optimizer_fpath):
                 log.write(">> Loading checkpoint:\n>> '{}'\n".format(optimizer_fpath))
                 optimizer.load_state_dict(torch.load(optimizer_fpath)['optimizer'])
-
-            if args.ema:
-                ema_model_fpath = model_fpath.replace('.pth', '_ema.pth')
-                if ope(ema_model_fpath):
-                    log.write(">> Loading checkpoint:\n>> '{}'\n".format(ema_model_fpath))
-                    ema_model.module.load_state_dict(torch.load(ema_model_fpath)['state_dict'])
             log.write(">>>> loaded checkpoint:\n>>>> '{}' (epoch {})\n".format(model_fpath, checkpoint['epoch']))
         else:
             log.write(">> No checkpoint found at '{}'\n".format(model_fpath))
@@ -164,11 +139,7 @@ def main():
         return_label=True,
         dataset='train',
     )
-    if args.is_balance:
-        train_sampler = BalanceClassSampler(train_dataset, args.sample_times * len(train_dataset))
-    else:
-        train_sampler = RandomSampler(train_dataset)
-
+    train_sampler = RandomSampler(train_dataset)
     train_loader = DataLoader(
         train_dataset,
         sampler=train_sampler,
@@ -177,7 +148,6 @@ def main():
         num_workers=args.workers,
         pin_memory=True,
     )
-    # valid_split_file = opj(DATA_DIR, args.split_type, args.split_name, 'random_valid_cv%d.csv' % args.fold)
     valid_dataset = SteelDataset(
         steel_df.iloc[valid_idx],
         img_size=args.img_size,
@@ -216,10 +186,7 @@ def main():
         iter, train_loss, train_dice = train(train_loader, model, ema_model, criterion, optimizer, epoch, args, lr=lr)
 
         with torch.no_grad():
-            if args.ema:
-                valid_loss, valid_dice = validate(valid_loader, ema_model, criterion, epoch)
-            else:
-                valid_loss, valid_dice = validate(valid_loader, model, criterion, epoch)
+            valid_loss, valid_dice = validate(valid_loader, model, criterion, epoch)
 
         # remember best loss and save checkpoint
         is_best = valid_dice >= best_dice
@@ -227,9 +194,6 @@ def main():
             best_epoch = epoch
             best_dice = valid_dice
 
-        if args.ema:
-            save_top_epochs(model_out_dir, ema_model, best_dice_arr, valid_dice,
-                            best_epoch, epoch, best_dice, ema=True)
         best_dice_arr = save_top_epochs(model_out_dir, model, best_dice_arr, valid_dice,
                                         best_epoch, epoch, best_dice, ema=False)
 
@@ -239,9 +203,6 @@ def main():
                    best_epoch, best_dice, (time.time() - end) / 60))
 
         model_name = '%03d' % epoch
-        if args.ema:
-            save_model(ema_model, model_out_dir, epoch, model_name, best_dice_arr, is_best=is_best,
-                       optimizer=optimizer, best_epoch=best_epoch, best_dice=best_dice, ema=True)
         save_model(model, model_out_dir, epoch, model_name, best_dice_arr, is_best=is_best,
                    optimizer=optimizer, best_epoch=best_epoch, best_dice=best_dice, ema=False)
 
@@ -253,9 +214,6 @@ def train(train_loader, model, ema_model, criterion, optimizer, epoch, args, lr=
 
     # switch to train mode
     model.train()
-
-    if args.pseudo is not None and epoch > 1:
-        train_loader.dataset.resample_pseudo()
 
     num_its = len(train_loader)
     end = time.time()
@@ -289,12 +247,6 @@ def train(train_loader, model, ema_model, criterion, optimizer, epoch, args, lr=
         probs = F.sigmoid(outputs)
         dice = metric(probs, masks)
         dices.update(dice.item())
-
-        if args.ema:
-            if epoch >= args.ema_start:
-                accumulate(ema_model, model, decay=args.ema_decay)
-            else:
-                accumulate(ema_model, model, decay=0)
 
         if (iter + 1) % print_freq == 0 or iter == 0 or (iter + 1) == num_its:
             print('\r%5.1f   %5d    %0.6f   |  %0.4f  %0.4f  | ... ' % \
@@ -340,11 +292,8 @@ def save_model(model, model_out_dir, epoch, model_name, best_dice_arr, is_best=F
         state_dict = model.state_dict()
     for key in state_dict.keys():
         state_dict[key] = state_dict[key].cpu()
-
-    if ema:
-        model_fpath = opj(model_out_dir, '%s_ema.pth' % model_name)
-    else:
-        model_fpath = opj(model_out_dir, '%s.pth' % model_name)
+  
+    model_fpath = opj(model_out_dir, '%s.pth' % model_name)
     torch.save({
         'state_dict': state_dict,
         'best_epoch': best_epoch,
@@ -360,10 +309,7 @@ def save_model(model, model_out_dir, epoch, model_name, best_dice_arr, is_best=F
         }, optim_fpath)
 
     if is_best:
-        if ema:
-            best_model_fpath = opj(model_out_dir, 'final_ema.pth')
-        else:
-            best_model_fpath = opj(model_out_dir, 'final.pth')
+        best_model_fpath = opj(model_out_dir, 'final.pth')
         shutil.copyfile(model_fpath, best_model_fpath)
         if optimizer is not None:
             best_optim_fpath = opj(model_out_dir, 'final_optim.pth')
@@ -401,10 +347,7 @@ class AverageMeter(object):
 def save_top_epochs(model_out_dir, model, best_dice_arr, valid_dice, best_epoch, epoch, best_dice, ema=False):
     best_dice_arr = best_dice_arr.copy()
 
-    if ema:
-        suffix = '_ema'
-    else:
-        suffix = ''
+    suffix = ''
     min_dice = np.min(best_dice_arr)
     last_ix = len(best_dice_arr) - 1
 
@@ -432,7 +375,7 @@ def save_top_epochs(model_out_dir, model, best_dice_arr, valid_dice, best_epoch,
 
         model_name = 'top%d' % (min_ix + 1)
         save_model(model, model_out_dir, epoch, model_name, best_dice_arr, is_best=False,
-                   optimizer=None, best_epoch=best_epoch, best_dice=best_dice, ema=ema)
+                   optimizer=None, best_epoch=best_epoch, best_dice=best_dice, ema=False)
 
     return best_dice_arr
 
