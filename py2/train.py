@@ -35,7 +35,7 @@ parser.add_argument('--gpu_id', default='0', type=str, help='gpu id used for tra
 parser.add_argument('--arch', default='unet_resnet34_cbam_v0a', type=str,
                     help='model architecture (default: unet_resnet34_cbam_v0a)')
 parser.add_argument('--loss', default='SymmetricLovaszLoss', choices=loss_names, type=str,
-                    help='loss function: ' + ' | '.join(loss_names) + ' (deafault: BCEWithLogitsLoss)')
+                    help='loss function: ' + ' | '.join(loss_names) + ' (deafault: SymmetricLovaszLoss)')
 parser.add_argument('--scheduler', default='Adam3', type=str, help='scheduler name')
 parser.add_argument('--epochs', default=20, type=int, help='number of total epochs to run (default: 20)')
 parser.add_argument('--img_size', default=(256, 1600), type=int, help='image size (default: (256, 1600))')
@@ -49,7 +49,7 @@ parser.add_argument('--fold', default=0, type=int, help='index of fold (default:
 parser.add_argument('--clipnorm', default=1, type=int, help='clip grad norm')
 parser.add_argument('--resume', default=None, type=str, help='name of the latest checkpoint (default: None)')
 parser.add_argument('--crop_version', default=None, type=str, help='the cropped version (default: None)')
-parser.add_argument('--is_balance', default=True, type=bool, help='is_balance')
+parser.add_argument('--is_balance', default=False, type=bool, help='is_balance')
 parser.add_argument('--sample_times', type=int, default=3)
 parser.add_argument('--ema', action='store_true', default=False)
 parser.add_argument('--ema_decay', type=float, default=0.9999)
