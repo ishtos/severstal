@@ -102,3 +102,42 @@ class BalanceClassSampler(Sampler):
 
     def __len__(self):
         return self.length
+
+
+class FourBalanceClassSampler(Sampler):
+
+    def __init__(self, dataset):
+        self.dataset = dataset
+
+        label = (self.dataset.steel_df['split_label'].values)
+        label = label.reshape(-1, 5)
+        label = np.hstack([label.sum(1, keepdims=True) == 0, label]).T
+
+        self.neg_index = np.where(label[0])[0]
+        self.pos1_index = np.where(label[1])[1]
+        self.pos2_index = np.where(label[2])[0]
+        self.pos3_index = np.where(label[3])[0]
+        self.pos4_index = np.where(label[4])[0]
+        self.pos5_index = np.where(label[5])[0]
+
+        num_neg = len(self.neg_index)
+        self.length = 4*num_neg + (num_neg // 2)
+
+    def __iter__(self):
+        neg = self.neg_index().copy()
+        np.random.shuffle(neg)
+        num_neg = len(self.neg_index)
+
+        poa1 = np.random.choice(self.pos1_index, num_neg, replace=True)
+        pos2 = np.random.choice(self.pos2_index, num_neg, replace=True)
+        pos3 = np.random.choice(self.pos3_index, num_neg, replace=True)
+        pos4 = np.random.choice(self.pos4_index, num_neg, replace=True)
+        pos5 = np.random.choice(self.pos5_index, num_neg // 2, replace=True)
+
+        l = np.stack([neg, pos1, pos2, pos3, pos4]).T
+        l = l.reshape(-1)
+        return iter(l)
+
+    def __len__(self):
+        return self.length
+
