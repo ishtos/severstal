@@ -9,6 +9,7 @@ from sklearn.model_selection import train_test_split
 import torch
 import torch.optim
 import torch.nn.functional as F
+from torchvision.models import *
 from torch.nn import DataParallel
 from torch.backends import cudnn
 from torch.autograd import Variable
@@ -18,7 +19,7 @@ from torch.utils.data.sampler import RandomSampler, SequentialSampler
 from config.config import *
 from networks.imageunet import init_network
 from datasets.datasets import SteelDataset, BalanceClassSampler
-from layers.backbone.resnet import *
+# from layers.backbone.resnet import *
 from layers.loss_funcs.loss import *
 from layers.scheduler import *
 from utils.common_util import *
