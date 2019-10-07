@@ -233,7 +233,7 @@ def train(train_loader, model, ema_model, criterion, optimizer, epoch, args, lr=
 
         outputs = model(images)
 
-        print(images.shape)
+        print(outputs.shape)
         print(labels.shape)
         loss = criterion(outputs, labels)
         # loss = criterion(outputs, masks, epoch=epoch)
