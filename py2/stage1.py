@@ -231,9 +231,6 @@ def train(train_loader, model, ema_model, criterion, optimizer, epoch, args, lr=
         labels = Variable(labels.cuda())
 
         outputs = model(images)
-
-        print(outputs.shape)
-        print(labels.shape)
         loss = criterion(outputs, labels)
         # loss = criterion(outputs, masks, epoch=epoch)
 
@@ -266,7 +263,6 @@ def validate(valid_loader, model, criterion, epoch):
     # switch to evaluate mode
     model.eval()
 
-    print('#####')
     end = time.time()
     for it, iter_data in enumerate(valid_loader, 0):
         images, labels, indices = iter_data

@@ -44,6 +44,7 @@ class SteelDataset(Dataset):
         print('image size: %s' % str(self.img_size))
 
     def __getitem__(self, index):
+        print("START")
         img_id = self.img_ids[index]
         img_fname = opj(self.img_dir, f'{img_id}')
         label = self.label[index]
@@ -58,6 +59,7 @@ class SteelDataset(Dataset):
             
             image = image / 255.0
             image = image_to_tensor(image)
+            print("END")
             return image, label, index
         else:
             if self.transform is not None:
