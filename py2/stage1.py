@@ -266,17 +266,18 @@ def validate(valid_loader, model, criterion, epoch):
     # switch to evaluate mode
     model.eval()
 
+    print('#####')
     end = time.time()
     for it, iter_data in enumerate(valid_loader, 0):
-        images, masks, indices = iter_data
+        images, labels, indices = iter_data
         images = Variable(images.cuda())
-        masks = Variable(masks.cuda())
+        labels = Variable(labels.cuda())
 
         outputs = model(images)
-        loss = criterion(outputs, masks)
+        loss = criterion(outputs, labels)
         # loss = criterion(outputs, masks, epoch=epoch)
         probs = F.sigmoid(outputs)
-        dice = metric(probs, masks)
+        dice = metric(probs, labels)
 
         losses.update(loss.item())
         dices.update(dice.item())
