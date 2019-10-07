@@ -18,7 +18,7 @@ from torch.utils.data.sampler import RandomSampler, SequentialSampler
 
 from config.config import *
 from networks.imageunet import init_network
-from datasets.datasets import SteelDataset, BalanceClassSampler
+from datasets.stage1_datasets import SteelDataset, BalanceClassSampler
 # from layers.backbone.resnet import *
 from layers.loss_funcs.loss import *
 from layers.scheduler import *
