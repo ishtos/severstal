@@ -68,7 +68,7 @@ def main():
     torch.cuda.manual_seed_all(0)
     np.random.seed(0)
 
-    model = resnet34(pretrained=False, num_classes=4)
+    model = resnet34(pretrained=False, num_classes=5)
 
     # move network to gpu
     model = DataParallel(model)
