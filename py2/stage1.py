@@ -139,10 +139,10 @@ def main():
         return_label=True,
         dataset='train',
     )
-    train_sampler = RandomSampler(train_dataset)
+    # train_sampler = RandomSampler(train_dataset)
     train_loader = DataLoader(
         train_dataset,
-        sampler=train_sampler,
+        sampler=SequentialSampler(train_dataset),
         batch_size=args.batch_size,
         drop_last=True,
         num_workers=args.workers,
