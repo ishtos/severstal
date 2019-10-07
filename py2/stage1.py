@@ -230,10 +230,9 @@ def train(train_loader, model, ema_model, criterion, optimizer, epoch, args, lr=
         images = Variable(images.cuda())
         labels = Variable(labels.cuda())
 
+        print(model)
         outputs = model(images)
 
-        print(outputs.shape)
-        print(labels.shape)
         loss = criterion(outputs, labels)
         # loss = criterion(outputs, masks, epoch=epoch)
 
