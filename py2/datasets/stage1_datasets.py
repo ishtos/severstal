@@ -52,8 +52,7 @@ class SteelDataset(Dataset):
         if image is None:
             print(img_fname)
             raise ValueError(img_fname)
-        
-        print(image)
+        print(type(image))
         if self.return_label:
             if self.transform is not None:
                 image = self.transform(image=image)
