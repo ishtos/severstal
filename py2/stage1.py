@@ -29,11 +29,11 @@ loss_names = ['SymmetricLovaszLoss', 'BCEWithLogitsLoss', 'BCELoss', 'BCEDiceLos
 split_types = ['split', 'cropv3_split', 'lung_split']
 split_names = ['random_folds4', 'random_folds10']
 
-parser = argparse.ArgumentParser(description='PyTorch SIIM Segmentation')
+parser = argparse.ArgumentParser(description='PyTorch Severstal Segmentation')
 parser.add_argument('--out_dir', type=str, help='destination where trained network should be saved')
 parser.add_argument('--gpu_id', default='0', type=str, help='gpu id used for training (default: 0)')
-parser.add_argument('--arch', default='unet_resnet34_cbam_v0a', type=str, help='model architecture (default: unet_resnet34_cbam_v0a)')
-parser.add_argument('--loss', default='SymmetricLovaszLoss', choices=loss_names, type=str, help='loss function: ' + ' | '.join(loss_names) + ' (deafault: SymmetricLovaszLoss)')
+parser.add_argument('--arch', default='resnet3r', type=str, help='model architecture (default: resnet34)')
+parser.add_argument('--loss', default='BCEWithLogitsLoss', choices=loss_names, type=str, help='loss function: ' + ' | '.join(loss_names) + ' (deafault: SymmetricLovaszLoss)')
 parser.add_argument('--scheduler', default='Adam3', type=str, help='scheduler name')
 parser.add_argument('--epochs', default=20, type=int, help='number of total epochs to run (default: 20)')
 parser.add_argument('--img_size', default=(256, 1600), type=int, help='image size (default: (256, 1600))')
