@@ -23,6 +23,7 @@ class SteelDataset(Dataset):
         self.mask_size = mask_size
         self.return_label = return_label
         self.dataset = dataset
+        self.label = steel_df['label']
        
         base_dir = DATA_DIR
         if dataset in ['train', 'val']:
@@ -45,6 +46,7 @@ class SteelDataset(Dataset):
     def __getitem__(self, index):
         img_id = self.img_ids[index]
         img_fname = opj(self.img_dir, f'{img_id}')
+        label = self.label[index]
 
         image = cv2.imread(img_fname)
         if image is None:
@@ -52,17 +54,12 @@ class SteelDataset(Dataset):
             raise ValueError(img_fname)
   
         if self.return_label:
-            mask = build_mask(self.steel_df.iloc[index], self.mask_size[0], self.mask_size[1])
-            mask = mask.astype(np.int8)
-            
             if self.transform is not None:
-                image, mask = self.transform(image=image, mask=mask)
+                image = self.transform(image=image)
 
             image = image / 255.0
-            # mask = mask / 255.0
             image = image_to_tensor(image)
-            mask = label_to_tensor(mask)
-            return image, mask, index
+            return image, label, index
         else:
             if self.transform is not None:
                 image = self.transform(image=image)[0]
@@ -140,3 +137,4 @@ class FourBalanceClassSampler(Sampler):
 
     def __len__(self):
         return self.length
+

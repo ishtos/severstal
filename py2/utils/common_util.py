@@ -18,3 +18,18 @@ def make_split_label(x):
         return 3
     if str(x['4']) != 'nan':
         return 4
+
+
+def make_label(x):
+    if x == 0:
+        return np.array([0, 0, 0, 0, 0])
+    elif x == 1:
+        return np.array([1, 0, 0, 0, 0])
+    elif x == 2:
+        return np.array([0, 1, 0, 0, 0])
+    elif x == 3:
+        return np.array([0, 0, 1, 0, 0])
+    elif x == 4:
+        return np.array([0, 0, 0, 1, 0])
+    elif x == 5:
+        return np.array([0, 0, 0, 0, 1])

@@ -67,9 +67,7 @@ def main():
     torch.cuda.manual_seed_all(0)
     np.random.seed(0)
 
-    model_params = {}
-    model_params['architecture'] = args.arch
-    model = init_network(model_params)
+    model = resnet34(pretrained=False, num_classes=4)
 
     # move network to gpu
     model = DataParallel(model)
@@ -125,6 +123,7 @@ def main():
     steel_df.columns = [str(i) for i in steel_df.columns.values]
     steel_df['class_count'] = steel_df[['1', '2', '3', '4']].count(axis=1)
     steel_df['split_label'] = steel_df[['1', '2', '3', '4', 'class_count']].apply(lambda x: make_split_label(x), axis=1)
+    steel_df['label'] = steel_df['split_label'].apply(lambda x: make_label(x))
     train_idx, valid_idx, _, _ = train_test_split(
                                             steel_df.index, 
                                             steel_df['split_label'], 
@@ -226,12 +225,12 @@ def train(train_loader, model, ema_model, criterion, optimizer, epoch, args, lr=
         # zero out gradients so we can accumulate new ones over batches
         optimizer.zero_grad()
 
-        images, masks, indices = iter_data
+        images, labels, indices = iter_data
         images = Variable(images.cuda())
-        masks = Variable(masks.cuda())
+        labels = Variable(labels.cuda())
 
         outputs = model(images)
-        loss = criterion(outputs, masks)
+        loss = criterion(outputs, labels)
         # loss = criterion(outputs, masks, epoch=epoch)
 
         losses.update(loss.item())
