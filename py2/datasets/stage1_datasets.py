@@ -52,11 +52,10 @@ class SteelDataset(Dataset):
         if image is None:
             print(img_fname)
             raise ValueError(img_fname)
-        print(type(image))
         if self.return_label:
             if self.transform is not None:
-                image = self.transform(image=image)
-
+                image, _ = self.transform(image=image)
+            
             image = image / 255.0
             image = image_to_tensor(image)
             return image, label, index
