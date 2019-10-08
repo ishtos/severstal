@@ -11,7 +11,7 @@ model_names = {
 
 def init_network(params):
     architecture = params.get('architecture', 'unet_resnet34_cbam_v0a')
-    print(f">> Architecure: {architecure}.")
+    print(f">> Architecure: {architecture}.")
     pretrained_file = opj(PRETRAINED_DIR, model_names[architecture])
     print(">> Using pre-trained model.")
     net = eval(architecture)(pretrained_file=pretrained_file)
