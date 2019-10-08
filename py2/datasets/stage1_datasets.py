@@ -47,6 +47,7 @@ class SteelDataset(Dataset):
         img_id = self.img_ids[index]
         img_fname = opj(self.img_dir, f'{img_id}')
         label = self.label[index]
+        print(label)
 
         image = cv2.imread(img_fname)
         if image is None:
