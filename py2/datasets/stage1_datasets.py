@@ -45,35 +45,29 @@ class SteelDataset(Dataset):
         print('image size: %s' % str(self.img_size))
 
     def __getitem__(self, index):
-        try:
-            img_id = self.img_ids[index]
-            img_fname = opj(self.img_dir, f'{img_id}')
-            label = np.array(self.label[index])
-            print(img_fname)
-            print(label)
+        img_id = self.img_ids[index]
+        img_fname = opj(self.img_dir, f'{img_id}')
+        label = self.label[index]
 
-            image = cv2.imread(img_fname)
-            if image is None:
-                print(img_fname)
-                raise ValueError(img_fname)
-            if self.return_label:
-                if self.transform is not None:
-                    image, _ = self.transform(image=image)
-                
-                image = image / 255.0
-                image = image_to_tensor(image)
-                return image, label, index
-            else:
-                if self.transform is not None:
-                    image = self.transform(image=image)[0]
-                image = image / 255.0
-                image = image_to_tensor(image)
-                return image, index
-        except KeyError:
-            img_id = self.img_ids[index]
-            label = np.array(self.label[index])
-            print(img_id)
-            print(label)
+        image = cv2.imread(img_fname)
+        if image is None:
+            print(img_fname)
+            raise ValueError(img_fname)
+
+        if self.return_label:
+            if self.transform is not None:
+                image, _ = self.transform(image=image)
+            
+            image = image / 255.0
+            image = image_to_tensor(image)
+            return image, label, index
+        else:
+            if self.transform is not None:
+                image = self.transform(image=image)[0]
+            image = image / 255.0
+            image = image_to_tensor(image)
+            return image, index
+    
 
     def __len__(self):
         return self.num
