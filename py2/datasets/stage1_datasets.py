@@ -69,11 +69,11 @@ class SteelDataset(Dataset):
                 image = image / 255.0
                 image = image_to_tensor(image)
                 return image, index
-            except KeyError:
-                img_id = self.img_ids[index]
-                label = np.array(self.label[index])
-                print(img_id)
-                print(label)
+        except KeyError:
+            img_id = self.img_ids[index]
+            label = np.array(self.label[index])
+            print(img_id)
+            print(label)
 
     def __len__(self):
         return self.num
