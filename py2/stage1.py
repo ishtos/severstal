@@ -226,13 +226,13 @@ def train(train_loader, model, ema_model, criterion, optimizer, epoch, args, lr=
         # zero out gradients so we can accumulate new ones over batches
         optimizer.zero_grad()
 
+        print(iter_data)
         images, labels, indices = iter_data
         images = Variable(images.cuda())
         labels = Variable(labels.cuda())
 
         outputs = model(images)
-        # loss = criterion(outputs, labels)
-        loss = 0
+        loss = criterion(outputs, labels)
         # loss = criterion(outputs, masks, epoch=epoch)
 
         losses.update(loss.item())
