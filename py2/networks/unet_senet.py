@@ -7,8 +7,8 @@ from layers.backbone.senet import *
 class SEnetUnet(nn.Module):
     def load_pretrain(self, pretrain_file):
         print('load pretrained file: %s' % pretrain_file)
-        # self.backbone.load_state_dict(torch.load(pretrain_file, map_location=lambda storage, loc: storage))
-        self.backbone.load_state_dict(torch.load(pretrain_file))
+        self.backbone.load_state_dict(torch.load(pretrain_file, map_location=lambda storage, loc: storage))
+        # self.backbone.load_state_dict(torch.load(pretrain_file))
     #attention_type
     #none:no attention
     #scse_v0:1803.02579 Concurrent Spatial and Channel  Squeeze & Excitation in Fully Convolutional Networks.pdf
