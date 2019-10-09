@@ -50,7 +50,7 @@ parser.add_argument('--fold', default=0, type=int, help='index of fold (default:
 parser.add_argument('--clipnorm', default=1, type=int, help='clip grad norm')
 parser.add_argument('--resume', default=None, type=str, help='name of the latest checkpoint (default: None)')
 parser.add_argument('--crop_version', default=None, type=str, help='the cropped version (default: None)')
-parser.add_argument('--is_balance', default=False, type=bool, help='is_balance')
+parser.add_argument('--is_balance', default=True, type=bool, help='is_balance')
 parser.add_argument('--sample_times', type=int, default=3)
 parser.add_argument('--ema', action='store_true', default=False)
 parser.add_argument('--ema_decay', type=float, default=0.9999)
