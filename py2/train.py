@@ -25,6 +25,7 @@ from utils.augment_util import *
 from utils.albu_augment_util import *
 from utils.log_util import Logger
 
+model_names = ['unet_resnet34_cbam_v0a', 'unet_se_resnext50_cbam_v0a']
 loss_names = ['SymmetricLovaszLoss', 'BCEWithLogitsLoss', 'BCELoss', 'BCEDiceLoss']
 split_types = ['split', 'cropv3_split', 'lung_split']
 split_names = ['random_folds4', 'random_folds10']

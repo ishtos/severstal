@@ -126,10 +126,10 @@ def main():
     steel_df['split_label'] = steel_df[['1', '2', '3', '4', 'class_count']].apply(lambda x: make_split_label(x), axis=1)
     steel_df['label'] = steel_df['split_label'].apply(lambda x: make_label(x))
     train_idx, valid_idx, _, _ = train_test_split(
-                                            steel_df.index, 
-                                            steel_df['split_label'], 
-                                            test_size=0.2, 
-                                            random_state=43)
+                                                    steel_df.index, 
+                                                    steel_df['split_label'], 
+                                                    test_size=0.2, 
+                                                    random_state=43)
 
     train_dataset = SteelDataset(
         steel_df.iloc[train_idx],
@@ -226,7 +226,6 @@ def train(train_loader, model, ema_model, criterion, optimizer, epoch, args, lr=
         # zero out gradients so we can accumulate new ones over batches
         optimizer.zero_grad()
 
-        print(iter_data)
         images, labels, indices = iter_data
         images = Variable(images.cuda())
         labels = Variable(labels.cuda())
